@@ -1,6 +1,6 @@
 use crate::{
-    common::{Images, Pagination},
     JikanClient, JikanError,
+    common::{Images, Pagination},
 };
 use serde::{Deserialize, Serialize};
 

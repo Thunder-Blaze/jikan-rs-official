@@ -1,5 +1,5 @@
 // magazines.rs
-use crate::{common::Pagination, JikanClient, JikanError};
+use crate::{JikanClient, JikanError, common::Pagination};
 use serde::{Deserialize, Serialize};
 
 pub enum OrderBy {

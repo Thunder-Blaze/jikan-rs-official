@@ -1,6 +1,6 @@
 use crate::common::wait_between_tests;
-use jikan_rs::magazines::*;
 use jikan_rs::JikanClient;
+use jikan_rs::magazines::*;
 use serial_test::serial;
 mod common;
 

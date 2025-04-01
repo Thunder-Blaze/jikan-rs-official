@@ -1,5 +1,5 @@
 use crate::common::wait_between_tests;
-use jikan_rs::{clubs::ClubSearchParams, JikanClient, JikanError};
+use jikan_rs::{JikanClient, JikanError, clubs::ClubSearchParams};
 use serial_test::serial;
 mod common;
 

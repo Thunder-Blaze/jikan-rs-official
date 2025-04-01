@@ -1,10 +1,10 @@
 // people.rs
 use crate::{
+    JikanClient, JikanError,
     anime::*,
     character::*,
     common::{Images, Pagination},
     manga::*,
-    JikanClient, JikanError,
 };
 use serde::{Deserialize, Serialize};
 

@@ -1,5 +1,5 @@
 use crate::common::wait_between_tests;
-use jikan_rs::{top::*, JikanClient};
+use jikan_rs::{JikanClient, top::*};
 use serial_test::serial;
 mod common;
 

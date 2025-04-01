@@ -1,8 +1,8 @@
 // producers.rs
 use crate::{
+    JikanClient, JikanError,
     character::*,
     common::{Images, Pagination},
-    JikanClient, JikanError,
 };
 use serde::{Deserialize, Serialize};
 
