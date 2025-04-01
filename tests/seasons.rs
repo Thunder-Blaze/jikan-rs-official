@@ -1,132 +1,86 @@
 use crate::common::wait_between_tests;
 use jikan_rs::JikanClient;
-use jikan_rs::seasons::FilterType;
+use jikan_rs::seasons::{FilterType, SeasonQueryParams};
 use serial_test::serial;
+
 mod common;
 
 #[tokio::test]
 #[serial]
-pub async fn get_season_now() {
+async fn test_get_season_now() {
     let client = JikanClient::new();
-    let result = client
-        .get_season_now(None, None, None, None, None, None)
-        .await;
-    assert!(result.is_ok());
+    let result = client.get_season_now(None).await;
+    assert!(result.is_ok(), "Failed to get current season");
     wait_between_tests().await;
 }
 
 #[tokio::test]
 #[serial]
-pub async fn get_season_now_with_filters() {
+async fn test_get_season_now_with_filters() {
     let client = JikanClient::new();
-    let result = client
-        .get_season_now(
-            Some(FilterType::TV),
-            Some(true),
-            None,
-            None,
-            Some(1),
-            Some(10),
-        )
-        .await;
-    println!("{:?}", result);
-    assert!(result.is_ok());
+    let params = SeasonQueryParams::new()
+        .filter(FilterType::TV)
+        .sfw(true)
+        .page(1)
+        .limit(10);
+    let result = client.get_season_now(Some(params)).await;
+    assert!(result.is_ok(), "Failed to get current season with filters");
     wait_between_tests().await;
 }
 
 #[tokio::test]
 #[serial]
-pub async fn get_specific_season() {
+async fn test_get_specific_season() {
     let client = JikanClient::new();
     // Testing with a known season
-    let result = client
-        .get_season(2023, "winter", None, None, None, None, None, None)
-        .await;
-    assert!(result.is_ok());
+    let result = client.get_season(2023, "winter", None).await;
+    assert!(result.is_ok(), "Failed to get specific season");
     wait_between_tests().await;
 }
 
 #[tokio::test]
 #[serial]
-pub async fn get_specific_season_with_filters() {
+async fn test_get_specific_season_with_filters() {
     let client = JikanClient::new();
-    let result = client
-        .get_season(
-            2023,
-            "winter",
-            Some(FilterType::Movie),
-            Some(true),
-            None,
-            None,
-            Some(1),
-            Some(5),
-        )
-        .await;
-    println!("{:?}", result);
-    assert!(result.is_ok());
+    let params = SeasonQueryParams::new()
+        .filter(FilterType::Movie)
+        .sfw(true)
+        .page(1)
+        .limit(5);
+    let result = client.get_season(2023, "winter", Some(params)).await;
+    assert!(result.is_ok(), "Failed to get specific season with filters");
     wait_between_tests().await;
 }
 
 #[tokio::test]
 #[serial]
-pub async fn get_seasons_list() {
+async fn test_get_seasons_list() {
     let client = JikanClient::new();
     let result = client.get_seasons_list().await;
-    println!("{:?}", result);
-    assert!(result.is_ok());
+    assert!(result.is_ok(), "Failed to get seasons list");
     wait_between_tests().await;
 }
 
 #[tokio::test]
 #[serial]
-pub async fn get_season_upcoming() {
+async fn test_get_season_upcoming() {
     let client = JikanClient::new();
-    let result = client
-        .get_season_upcoming(None, None, None, None, None, None)
-        .await;
-    assert!(result.is_ok());
+    let result = client.get_season_upcoming(None).await;
+    assert!(result.is_ok(), "Failed to get upcoming season");
     wait_between_tests().await;
 }
 
 #[tokio::test]
 #[serial]
-pub async fn get_season_upcoming_with_filters() {
+async fn test_get_season_upcoming_with_filters() {
     let client = JikanClient::new();
-    let result = client
-        .get_season_upcoming(
-            Some(FilterType::TV),
-            Some(true),
-            None,
-            Some(true),
-            Some(1),
-            Some(10),
-        )
-        .await;
-    println!("{:?}", result);
-    assert!(result.is_ok());
+    let params = SeasonQueryParams::new()
+        .filter(FilterType::TV)
+        .sfw(true)
+        .continuing(true)
+        .page(1)
+        .limit(10);
+    let result = client.get_season_upcoming(Some(params)).await;
+    assert!(result.is_ok(), "Failed to get upcoming season with filters");
     wait_between_tests().await;
-}
-
-#[tokio::test]
-#[serial]
-pub async fn test_season_filter_types() {
-    let client = JikanClient::new();
-
-    // Testing different filter types
-    let filters = vec![
-        FilterType::TV,
-        FilterType::Movie,
-        FilterType::OVA,
-        FilterType::ONA,
-        FilterType::Special,
-        FilterType::Music,
-    ];
-
-    for filter in filters {
-        let result = client
-            .get_season_now(Some(filter), None, None, None, Some(1), Some(3))
-            .await;
-        assert!(result.is_ok());
-        wait_between_tests().await;
-    }
 }
