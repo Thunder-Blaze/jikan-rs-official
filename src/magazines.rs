@@ -59,14 +59,14 @@ impl JikanClient {
             OrderBy::Name => "order_by=name".to_string(),
             OrderBy::Count => "order_by=count".to_string(),
         };
-        params.push(format!("{}", order));
+        params.push(order);
 
         let so = match sort {
             Sort::None => String::new(),
             Sort::Asc => "sort=asc".to_string(),
             Sort::Desc => "sort=desc".to_string(),
         };
-        params.push(format!("{}", so));
+        params.push(so);
 
         if let Some(lt) = letter {
             params.push(format!("letter={}", lt));

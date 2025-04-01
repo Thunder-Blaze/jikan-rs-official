@@ -98,7 +98,7 @@ impl JikanClient {
     }
 
     pub async fn get_users(&self) -> Result<UserVectorResponse<User>, JikanError> {
-        self.get(&format!("/users/")).await
+        self.get("/users/").await
     }
 
     pub async fn get_user_by_id(&self, id: i32) -> Result<UserResponse<UserById>, JikanError> {

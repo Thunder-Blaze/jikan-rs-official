@@ -1,5 +1,5 @@
 use crate::common::wait_between_tests;
-use jikan_rs::{JikanClient, JikanError};
+use jikan_rs::{clubs::ClubSearchParams, JikanClient, JikanError};
 use serial_test::serial;
 mod common;
 
@@ -43,17 +43,12 @@ async fn get_club_relations() {
 #[serial]
 async fn get_club_search() {
     let client = JikanClient::new();
-    let result = client
-        .get_club_search(
-            Some(1),
-            Some(10),
-            Some("anime".to_string()),
-            None,
-            None,
-            None,
-            None,
-        )
-        .await;
+    let params = ClubSearchParams::new()
+        .with_page(1)
+        .with_limit(10)
+        .with_query("anime");
+
+    let result = client.get_club_search(params).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -62,17 +57,12 @@ async fn get_club_search() {
 #[serial]
 async fn get_club_search_with_category() {
     let client = JikanClient::new();
-    let result = client
-        .get_club_search(
-            Some(1),
-            Some(5),
-            None,
-            Some("manga".to_string()),
-            None,
-            None,
-            None,
-        )
-        .await;
+    let params = ClubSearchParams::new()
+        .with_page(1)
+        .with_limit(5)
+        .with_category("manga");
+
+    let result = client.get_club_search(params).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -81,17 +71,13 @@ async fn get_club_search_with_category() {
 #[serial]
 async fn get_club_search_with_order() {
     let client = JikanClient::new();
-    let result = client
-        .get_club_search(
-            Some(1),
-            Some(10),
-            None,
-            None,
-            Some("members_count".to_string()),
-            Some("desc".to_string()),
-            None,
-        )
-        .await;
+    let params = ClubSearchParams::new()
+        .with_page(1)
+        .with_limit(10)
+        .with_order_by("members_count")
+        .with_sort("desc");
+
+    let result = client.get_club_search(params).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -100,17 +86,12 @@ async fn get_club_search_with_order() {
 #[serial]
 async fn get_club_search_with_letter() {
     let client = JikanClient::new();
-    let result = client
-        .get_club_search(
-            Some(1),
-            Some(10),
-            None,
-            None,
-            None,
-            None,
-            Some("A".to_string()),
-        )
-        .await;
+    let params = ClubSearchParams::new()
+        .with_page(1)
+        .with_limit(10)
+        .with_letter("A");
+
+    let result = client.get_club_search(params).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
