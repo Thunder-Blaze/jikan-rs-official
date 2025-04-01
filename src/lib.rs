@@ -17,6 +17,7 @@ pub mod random;
 pub mod recommendations;
 pub mod review;
 pub mod schedule;
+pub mod seasons;
 pub mod top;
 pub mod users;
 
