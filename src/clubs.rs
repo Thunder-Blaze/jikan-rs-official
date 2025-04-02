@@ -45,7 +45,7 @@ pub struct ClubStaff {
 pub struct ClubRelationContent {
     pub mal_id: i32,
     #[serde(rename = "type")]
-    pub type_: String,
+    pub type_: Option<String>,
     pub name: String,
     pub url: String,
 }

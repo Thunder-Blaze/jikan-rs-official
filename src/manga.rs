@@ -24,6 +24,7 @@ pub struct Manga {
     pub chapters: Option<i32>,
     pub volumes: Option<i32>,
     pub status: Option<String>,
+    pub start_year: Option<u32>,
     pub score: Option<f32>,
     pub synopsis: Option<String>,
     pub published: Option<DateRange>,
