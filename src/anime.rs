@@ -21,6 +21,7 @@ pub struct Anime {
     pub url: String,
     pub images: Images,
     pub title: String,
+    pub start_year: Option<u32>,
     pub title_english: Option<String>,
     pub title_japanese: Option<String>,
     pub episodes: Option<i32>,

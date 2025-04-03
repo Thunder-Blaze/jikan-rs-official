@@ -229,12 +229,12 @@ pub struct Review {
     pub review: String,
     pub score: u32,
     pub entry: Anime,
-    pub user: User,
+    pub user: Option<User>,
     pub date: String,
     pub tags: Vec<String>,
     pub is_spoiler: bool,
     pub is_preliminary: bool,
-    // pub episodes_watched: u32,    // I don't know it's exact type as it also has null value
+    pub episodes_watched: Option<u32>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
