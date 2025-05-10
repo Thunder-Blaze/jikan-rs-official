@@ -1,39 +1,15 @@
 use crate::{
     JikanClient, JikanError,
-    character::*,
-    utils::{DateRange, Images, Pagination},
+    utils::Pagination,
+    structs::{
+        character::Character,
+        manga::Manga,
+    },
     misc::*,
     users::*,
+    response::Response,
 };
 use serde::{Deserialize, Serialize};
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct MangaResponse<T> {
-    pub data: T,
-    pub pagination: Option<Pagination>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Manga {
-    pub mal_id: i32,
-    pub url: String,
-    pub images: Images,
-    pub title: String,
-    pub title_english: Option<String>,
-    pub title_japanese: Option<String>,
-    pub chapters: Option<i32>,
-    pub volumes: Option<i32>,
-    pub status: Option<String>,
-    pub start_year: Option<u32>,
-    pub score: Option<f32>,
-    pub synopsis: Option<String>,
-    pub published: Option<DateRange>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct MangaCharacters {
-    pub data: Vec<MangaCharacter>,
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MangaCharacter {
@@ -75,15 +51,15 @@ pub struct MangaUserUpdates {
 }
 
 impl JikanClient {
-    pub async fn get_manga(&self, id: i32) -> Result<MangaResponse<Manga>, JikanError> {
+    pub async fn get_manga(&self, id: i32) -> Result<Response<Manga>, JikanError> {
         self.get(&format!("/manga/{}", id)).await
     }
 
-    pub async fn get_manga_full(&self, id: i32) -> Result<MangaResponse<Manga>, JikanError> {
+    pub async fn get_manga_full(&self, id: i32) -> Result<Response<Manga>, JikanError> {
         self.get(&format!("/manga/{}/full", id)).await
     }
 
-    pub async fn get_manga_characters(&self, id: i32) -> Result<MangaCharacters, JikanError> {
+    pub async fn get_manga_characters(&self, id: i32) -> Result<Vec<MangaCharacter>, JikanError> {
         self.get(&format!("/manga/{}/characters", id)).await
     }
 
@@ -114,25 +90,25 @@ impl JikanClient {
     pub async fn get_manga_pictures(
         &self,
         id: i32,
-    ) -> Result<MangaResponse<Vec<Picture>>, JikanError> {
+    ) -> Result<Response<Vec<Picture>>, JikanError> {
         self.get(&format!("/manga/{}/pictures", id)).await
     }
 
     pub async fn get_manga_statistics(
         &self,
         id: i32,
-    ) -> Result<MangaResponse<MangaStatistics>, JikanError> {
+    ) -> Result<Response<MangaStatistics>, JikanError> {
         self.get(&format!("/manga/{}/statistics", id)).await
     }
 
-    pub async fn get_manga_moreinfo(&self, id: i32) -> Result<MangaResponse<MoreInfo>, JikanError> {
+    pub async fn get_manga_moreinfo(&self, id: i32) -> Result<Response<MoreInfo>, JikanError> {
         self.get(&format!("/manga/{}/moreinfo", id)).await
     }
 
     pub async fn get_manga_recommendations(
         &self,
         id: i32,
-    ) -> Result<MangaResponse<Vec<Recommendation>>, JikanError> {
+    ) -> Result<Response<Vec<Recommendation>>, JikanError> {
         self.get(&format!("/manga/{}/recommendations", id)).await
     }
 
@@ -154,7 +130,7 @@ impl JikanClient {
         page: Option<u32>,
         preliminary: Option<bool>,
         spoilers: Option<bool>,
-    ) -> Result<MangaResponse<Vec<Review>>, JikanError> {
+    ) -> Result<Response<Vec<Review>>, JikanError> {
         let mut params = Vec::new();
 
         if let Some(p) = page {
@@ -179,14 +155,14 @@ impl JikanClient {
     pub async fn get_manga_relations(
         &self,
         id: i32,
-    ) -> Result<MangaResponse<Vec<Relation>>, JikanError> {
+    ) -> Result<Response<Vec<Relation>>, JikanError> {
         self.get(&format!("/manga/{}/relations", id)).await
     }
 
     pub async fn get_manga_external(
         &self,
         id: i32,
-    ) -> Result<MangaResponse<Vec<ExternalLink>>, JikanError> {
+    ) -> Result<Response<Vec<ExternalLink>>, JikanError> {
         self.get(&format!("/manga/{}/external", id)).await
     }
 }

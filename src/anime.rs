@@ -1,19 +1,16 @@
 // anime.rs
 use crate::{
     JikanClient, JikanError,
-    character::*,
+    structs::{
+        character::Character,
+        people::Person,
+    },
     utils::{DateRange, Images, Pagination},
     misc::*,
-    people::*,
     users::*,
+    response::Response,
 };
 use serde::{Deserialize, Serialize};
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AnimeResponse<T> {
-    pub data: T,
-    pub pagination: Option<Pagination>,
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Anime {
@@ -101,11 +98,11 @@ pub struct EpisodeVideo {
 }
 
 impl JikanClient {
-    pub async fn get_anime(&self, id: i32) -> Result<AnimeResponse<Anime>, JikanError> {
+    pub async fn get_anime(&self, id: i32) -> Result<Response<Anime>, JikanError> {
         self.get(&format!("/anime/{}", id)).await
     }
 
-    pub async fn get_anime_full(&self, id: i32) -> Result<AnimeResponse<Anime>, JikanError> {
+    pub async fn get_anime_full(&self, id: i32) -> Result<Response<Anime>, JikanError> {
         self.get(&format!("/anime/{}/full", id)).await
     }
 
@@ -133,7 +130,7 @@ impl JikanClient {
         &self,
         id: i32,
         episode: i32,
-    ) -> Result<AnimeResponse<Episode>, JikanError> {
+    ) -> Result<Response<Episode>, JikanError> {
         self.get(&format!("/anime/{}/episodes/{}", id, episode))
             .await
     }
@@ -145,28 +142,28 @@ impl JikanClient {
     pub async fn get_anime_statistics(
         &self,
         id: i32,
-    ) -> Result<AnimeResponse<AnimeStatistics>, JikanError> {
+    ) -> Result<Response<AnimeStatistics>, JikanError> {
         self.get(&format!("/anime/{}/statistics", id)).await
     }
 
     pub async fn get_anime_themes(
         &self,
         id: i32,
-    ) -> Result<AnimeResponse<AnimeThemes>, JikanError> {
+    ) -> Result<Response<AnimeThemes>, JikanError> {
         self.get(&format!("/anime/{}/themes", id)).await
     }
 
     pub async fn get_anime_external(
         &self,
         id: i32,
-    ) -> Result<AnimeResponse<Vec<ExternalLink>>, JikanError> {
+    ) -> Result<Response<Vec<ExternalLink>>, JikanError> {
         self.get(&format!("/anime/{}/external", id)).await
     }
 
     pub async fn get_anime_streaming(
         &self,
         id: i32,
-    ) -> Result<AnimeResponse<Vec<ExternalLink>>, JikanError> {
+    ) -> Result<Response<Vec<ExternalLink>>, JikanError> {
         self.get(&format!("/anime/{}/streaming", id)).await
     }
 
@@ -209,18 +206,18 @@ impl JikanClient {
     pub async fn get_anime_pictures(
         &self,
         id: i32,
-    ) -> Result<AnimeResponse<Vec<Picture>>, JikanError> {
+    ) -> Result<Response<Vec<Picture>>, JikanError> {
         self.get(&format!("/anime/{}/pictures", id)).await
     }
 
-    pub async fn get_anime_moreinfo(&self, id: i32) -> Result<AnimeResponse<MoreInfo>, JikanError> {
+    pub async fn get_anime_moreinfo(&self, id: i32) -> Result<Response<MoreInfo>, JikanError> {
         self.get(&format!("/anime/{}/moreinfo", id)).await
     }
 
     pub async fn get_anime_recommendations(
         &self,
         id: i32,
-    ) -> Result<AnimeResponse<Vec<Recommendation>>, JikanError> {
+    ) -> Result<Response<Vec<Recommendation>>, JikanError> {
         self.get(&format!("/anime/{}/recommendations", id)).await
     }
 
@@ -242,7 +239,7 @@ impl JikanClient {
         page: Option<u32>,
         preliminary: Option<bool>,
         spoilers: Option<bool>,
-    ) -> Result<AnimeResponse<Vec<Review>>, JikanError> {
+    ) -> Result<Response<Vec<Review>>, JikanError> {
         let mut params = Vec::new();
 
         if let Some(p) = page {

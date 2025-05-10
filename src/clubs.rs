@@ -1,14 +1,9 @@
 use crate::{
     JikanClient, JikanError,
     utils::{Images, Pagination},
+    response::Response,
 };
 use serde::{Deserialize, Serialize};
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ClubResponse<T> {
-    pub data: T,
-    pub pagination: Option<Pagination>,
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ClubVectorResponse<T> {
@@ -44,8 +39,7 @@ pub struct ClubStaff {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ClubRelationContent {
     pub mal_id: i32,
-    #[serde(rename = "type")]
-    pub type_: Option<String>,
+    pub r#type: Option<String>,
     pub name: String,
     pub url: String,
 }
@@ -149,7 +143,7 @@ impl ClubSearchParams {
 }
 
 impl JikanClient {
-    pub async fn get_club_by_id(&self, id: i32) -> Result<ClubResponse<Club>, JikanError> {
+    pub async fn get_club_by_id(&self, id: i32) -> Result<Response<Club>, JikanError> {
         self.get(&format!("/clubs/{}", id)).await
     }
 
@@ -180,7 +174,7 @@ impl JikanClient {
     pub async fn get_club_relations(
         &self,
         id: i32,
-    ) -> Result<ClubResponse<ClubRelations>, JikanError> {
+    ) -> Result<Response<ClubRelations>, JikanError> {
         self.get(&format!("/clubs/{}/relations", id)).await
     }
 

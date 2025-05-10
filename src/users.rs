@@ -2,11 +2,13 @@
 use crate::{
     JikanClient, JikanError,
     anime::Anime,
-    character::Character,
+    structs::{
+        manga::Manga,
+        character::Character,
+        people::Person,
+    },
     utils::{Images, Pagination},
-    manga::Manga,
     misc::RelatedEntry,
-    people::Person,
     structs::recommendation::Recommendation,
     structs::reviews::Review,
 };

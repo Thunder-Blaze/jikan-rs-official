@@ -6,7 +6,7 @@ use crate::{
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Manga {
-    pub mal_id: i32,
+    pub mal_id: u32,
     pub url: String,
     pub images: Images,
     pub title: String,

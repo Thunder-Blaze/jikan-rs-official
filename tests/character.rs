@@ -1,8 +1,12 @@
 use crate::common::wait_between_tests;
-use jikan_rs::JikanClient;
+use jikan_rs::{
+    common::enums::{
+        common::Sort,
+        character::CharacterOrder, 
+    },
+    JikanClient};
 use serial_test::serial;
 mod common;
-use jikan_rs::character::*;
 
 #[tokio::test]
 #[serial]
@@ -78,7 +82,7 @@ pub async fn get_character_search() {
             None,
             Some(1),
             Some(String::from("Naruto")),
-            Some(OrderBy::Favorites),
+            Some(CharacterOrder::Favorites),
             Some(Sort::Asc),
             None,
         )

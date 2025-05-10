@@ -1,7 +1,10 @@
 // producers.rs
 use crate::{
     JikanClient, JikanError,
-    character::*,
+    enums::{
+        common::Sort,
+        producers::ProducersOrder,
+    },
     utils::{Images, Pagination},
 };
 use serde::{Deserialize, Serialize};
@@ -71,7 +74,7 @@ impl JikanClient {
         page: Option<i32>,
         limit: Option<i32>,
         query: Option<i32>,
-        order_by: Option<OrderBy>,
+        order_by: Option<ProducersOrder>,
         sort: Option<Sort>,
         letter: Option<String>,
     ) -> Result<ProducerResponse<Vec<Producer>>, JikanError> {
@@ -87,19 +90,10 @@ impl JikanClient {
             params.push(format!("q={}", q));
         }
         if let Some(o) = order_by {
-            let order = match o {
-                OrderBy::MalId => "mal_id",
-                OrderBy::Name => "name",
-                OrderBy::Favorites => "favorites",
-            };
-            params.push(format!("order_by={}", order));
+            params.push(format!("order_by={}", o.as_str()));
         }
         if let Some(s) = sort {
-            let sort = match s {
-                Sort::Asc => "asc",
-                Sort::Desc => "desc",
-            };
-            params.push(format!("sort={}", sort));
+            params.push(format!("sort={}", s.as_str()));
         }
 
         if let Some(l) = letter {
