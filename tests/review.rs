@@ -8,7 +8,6 @@ mod common;
 pub async fn get_recent_anime_reviews() {
     let client = JikanClient::new();
     let result = client.get_recent_anime_reviews(Some(1), None, None).await;
-    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -20,7 +19,6 @@ pub async fn get_recent_anime_reviews_with_preliminary() {
     let result = client
         .get_recent_anime_reviews(Some(1), Some(true), None)
         .await;
-    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -32,7 +30,6 @@ pub async fn get_recent_anime_reviews_with_spoilers() {
     let result = client
         .get_recent_anime_reviews(Some(1), None, Some(true))
         .await;
-    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -42,7 +39,6 @@ pub async fn get_recent_anime_reviews_with_spoilers() {
 pub async fn get_recent_manga_reviews() {
     let client = JikanClient::new();
     let result = client.get_recent_manga_reviews(Some(1), None, None).await;
-    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -54,7 +50,6 @@ pub async fn get_recent_manga_reviews_with_preliminary() {
     let result = client
         .get_recent_manga_reviews(Some(1), Some(true), None)
         .await;
-    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -66,7 +61,6 @@ pub async fn get_recent_manga_reviews_with_spoilers() {
     let result = client
         .get_recent_manga_reviews(Some(1), None, Some(true))
         .await;
-    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }

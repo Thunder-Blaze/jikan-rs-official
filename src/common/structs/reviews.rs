@@ -1,11 +1,11 @@
 use crate::{
-    structs::anime::Anime,
+    utils::Images,
     structs::users::User,
 };
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Reactions {
+pub struct ReviewReactions {
     pub overall: u32,
     pub nice: u32,
     pub love_it: u32,
@@ -17,18 +17,27 @@ pub struct Reactions {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct EntryMeta {
+    pub mal_id: u32,
+    pub url: String,
+    pub images: Images,
+    pub title: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Review {
     pub mal_id: u32,
     pub url: String,
     pub r#type: String,
-    pub reactions: Reactions,
+    pub reactions: Option<ReviewReactions>,
     pub review: String,
     pub score: u32,
-    pub entry: Anime,
+    pub entry: EntryMeta,
     pub user: Option<User>,
     pub date: String,
     pub tags: Vec<String>,
     pub is_spoiler: bool,
     pub is_preliminary: bool,
     pub episodes_watched: Option<u32>,
+    pub chapters_read: Option<u32>,
 }
