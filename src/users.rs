@@ -7,7 +7,7 @@ use crate::{
     manga::Manga,
     misc::RelatedEntry,
     people::Person,
-    recommendations::Recommendation,
+    structs::recommendation::Recommendation,
     top::Review,
 };
 use serde::{Deserialize, Serialize};

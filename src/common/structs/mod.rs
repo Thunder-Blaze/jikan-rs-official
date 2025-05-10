@@ -12,3 +12,4 @@ pub mod reviews;
 pub mod schedule;
 pub mod season;
 pub mod users;
+pub mod recommendation;
