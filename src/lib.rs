@@ -9,6 +9,7 @@ pub mod clubs;
 pub mod common;
 use common::utils;
 use common::structs;
+use common::enums;
 use common::response;
 pub mod genre;
 pub mod magazines;

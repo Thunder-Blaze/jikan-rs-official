@@ -1,5 +1,8 @@
 use crate::common::wait_between_tests;
-use jikan_rs::{JikanClient, schedule::ScheduleFilter};
+use jikan_rs::{
+    JikanClient,
+    common::enums::schedule::ScheduleFilter,
+};
 use serial_test::serial;
 mod common;
 
@@ -111,8 +114,12 @@ async fn get_schedules_data_access() {
         }
 
         // Test pagination
-        let _last_page = response.pagination.last_visible_page;
-        let _has_next = response.pagination.has_next_page;
+        if let Some(pagination) = response.pagination {
+            let _last_page = pagination.last_visible_page;
+            let _has_next = pagination.has_next_page;
+        } else {
+            assert!(false, "Pagination was None");
+        }
     } else {
         assert!(false, "Response was not Ok");
     }

@@ -1,26 +1,10 @@
-use serde::{Deserialize, Serialize};
-
 // schedule.rs
-use crate::{JikanClient, JikanError, anime::*, utils::Pagination};
-
-pub enum ScheduleFilter {
-    None,
-    Monday,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday,
-    Saturday,
-    Sunday,
-    Unknown,
-    Other,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ScheduleResponse {
-    pub data: Vec<Anime>,
-    pub pagination: Pagination,
-}
+use crate::{JikanClient, JikanError};
+use crate::{
+    enums::schedule::ScheduleFilter,
+    response::Response,
+    structs::anime::Anime,
+};
 
 impl JikanClient {
     pub async fn get_schedules(
@@ -31,25 +15,11 @@ impl JikanClient {
         unapproved: Option<bool>,
         page: Option<u32>,
         limit: Option<u32>,
-    ) -> Result<ScheduleResponse, JikanError> {
+    ) -> Result<Response<Vec<Anime>>, JikanError> {
         let mut params = Vec::new();
 
         if let Some(f) = filter {
-            let filter_str = match f {
-                ScheduleFilter::None => String::new(),
-                ScheduleFilter::Monday => "monday".to_string(),
-                ScheduleFilter::Tuesday => "tuesday".to_string(),
-                ScheduleFilter::Wednesday => "wednesday".to_string(),
-                ScheduleFilter::Thursday => "thursday".to_string(),
-                ScheduleFilter::Friday => "friday".to_string(),
-                ScheduleFilter::Saturday => "saturday".to_string(),
-                ScheduleFilter::Sunday => "sunday".to_string(),
-                ScheduleFilter::Unknown => "unknown".to_string(),
-                ScheduleFilter::Other => "other".to_string(),
-            };
-            if !filter_str.is_empty() {
-                params.push(format!("filter={}", filter_str));
-            }
+            params.push(format!("filter={}", f.as_str()));
         }
 
         if let Some(k) = kids {
