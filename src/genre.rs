@@ -1,49 +1,27 @@
-use crate::{JikanClient, JikanError};
-
-pub enum GenreFilter {
-    None,
-    Genres,
-    ExplicitGenres,
-    Themes,
-    Demographics,
-}
-
-use serde::{Deserialize, Serialize};
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Genre {
-    pub mal_id: u32,
-    pub name: String,
-    pub url: String,
-    pub count: u32,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GenreResponse {
-    pub data: Vec<Genre>,
-}
+use crate::{
+    JikanClient, JikanError,
+    enums::genre::GenreFilter,
+    response::Response,
+    structs::genre::Genre,
+};
 
 impl JikanClient {
-    pub async fn get_anime_genres(&self, filter: GenreFilter) -> Result<GenreResponse, JikanError> {
-        let query = match filter {
-            GenreFilter::None => String::new(),
-            GenreFilter::Genres => "?filter=genres".to_string(),
-            GenreFilter::ExplicitGenres => "?filter=explicit_genres".to_string(),
-            GenreFilter::Themes => "?filter=themes".to_string(),
-            GenreFilter::Demographics => "?filter=demographics".to_string(),
-        };
+    pub async fn get_anime_genres(&self, filter: Option<GenreFilter>) -> Result<Response<Vec<Genre>>, JikanError> {
+        let mut query = String::new();
+
+        if let Some(q) = filter {
+            query = format!("?filter={}", q.as_str());
+        }
 
         self.get(&format!("/genres/anime{}", query)).await
     }
 
-    pub async fn get_manga_genres(&self, filter: GenreFilter) -> Result<GenreResponse, JikanError> {
-        let query = match filter {
-            GenreFilter::None => String::new(),
-            GenreFilter::Genres => "?filter=genres".to_string(),
-            GenreFilter::ExplicitGenres => "?filter=explicit_genres".to_string(),
-            GenreFilter::Themes => "?filter=themes".to_string(),
-            GenreFilter::Demographics => "?filter=demographics".to_string(),
-        };
+    pub async fn get_manga_genres(&self, filter: Option<GenreFilter>) -> Result<Response<Vec<Genre>>, JikanError> {
+        let mut query = String::new();
+
+        if let Some(q) = filter {
+            query = format!("?filter={}", q.as_str());
+        }
 
         self.get(&format!("/genres/manga{}", query)).await
     }
