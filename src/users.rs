@@ -8,7 +8,7 @@ use crate::{
     misc::RelatedEntry,
     people::Person,
     structs::recommendation::Recommendation,
-    top::Review,
+    structs::reviews::Review,
 };
 use serde::{Deserialize, Serialize};
 

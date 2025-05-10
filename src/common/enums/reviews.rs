@@ -1,15 +1,15 @@
 // Reviews Type
 // "anime" "manga"
-pub enum ReviewsType {
+pub enum ReviewType {
     Anime,
     Manga,
 }
 
-impl ReviewsType {
+impl ReviewType {
     pub fn as_str(&self) -> &'static str {
         match self {
-            ReviewsType::Anime => "anime",
-            ReviewsType::Manga => "manga",
+            ReviewType::Anime => "anime",
+            ReviewType::Manga => "manga",
         }
     }
 }

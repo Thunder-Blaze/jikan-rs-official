@@ -29,16 +29,16 @@ pub struct PersonVoiceActingRole {
     
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Person {
-    pub mal_id: i32,
+    pub mal_id: u32,
     pub url: String,
     pub website_url: Option<String>,
     pub images: Images,
-    pub name: Option<String>,
+    pub name: String,
     pub given_name: Option<String>,
     pub family_name: Option<String>,
-    pub alternate_names: Option<Vec<String>>,
+    pub alternate_names: Vec<String>,
     pub birthday: Option<String>,
-    pub favories: Option<i32>,
+    pub favorites: Option<u32>,
     pub about: Option<String>,
     pub anime: Option<Vec<PersonAnimePosition>>,
     pub manga: Option<Vec<PersonMangaPosition>>,
