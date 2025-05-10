@@ -3,7 +3,7 @@ use crate::{
     JikanClient, JikanError,
     anime::*,
     character::*,
-    common::{Images, Pagination},
+    utils::{Images, Pagination},
     manga::*,
 };
 use serde::{Deserialize, Serialize};

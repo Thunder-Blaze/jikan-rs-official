@@ -3,7 +3,7 @@ use crate::{
     JikanClient, JikanError,
     anime::Anime,
     character::Character,
-    common::{Images, Pagination},
+    utils::{Images, Pagination},
     manga::Manga,
     misc::RelatedEntry,
     people::Person,

@@ -2,7 +2,7 @@
 use crate::{
     JikanClient, JikanError,
     character::*,
-    common::{DateRange, Images, Pagination},
+    utils::{DateRange, Images, Pagination},
     misc::*,
     people::*,
     users::*,

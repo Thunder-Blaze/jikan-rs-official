@@ -1,4 +1,4 @@
-use crate::{JikanClient, JikanError, common::Pagination};
+use crate::{JikanClient, JikanError, utils::Pagination};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -18,7 +18,7 @@ pub struct WatchEpisodeEntry {
 pub struct AnimeEpisodeEntry {
     pub mal_id: i32,
     pub url: String,
-    pub images: crate::common::Images,
+    pub images: crate::utils::Images,
     pub title: String,
 }
 

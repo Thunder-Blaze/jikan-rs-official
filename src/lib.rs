@@ -8,6 +8,8 @@ pub mod character;
 pub mod clubs;
 pub mod common;
 use common::utils;
+use common::structs;
+use common::response;
 pub mod genre;
 pub mod magazines;
 pub mod manga;

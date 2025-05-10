@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 // schedule.rs
-use crate::{JikanClient, JikanError, anime::*, common::Pagination};
+use crate::{JikanClient, JikanError, anime::*, utils::Pagination};
 
 pub enum ScheduleFilter {
     None,

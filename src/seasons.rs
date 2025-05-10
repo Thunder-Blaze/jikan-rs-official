@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{JikanClient, JikanError, anime::*, common::Pagination};
+use crate::{JikanClient, JikanError, anime::*, utils::Pagination};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SeasonResponse {

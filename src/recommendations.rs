@@ -1,4 +1,4 @@
-use crate::common::{Images, Pagination};
+use crate::utils::{Images, Pagination};
 use crate::users::User;
 use crate::{JikanClient, JikanError};
 

@@ -1,5 +1,5 @@
 // misc.rs
-use crate::{common::Images, users::*};
+use crate::{utils::Images, users::*};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

@@ -1,4 +1,4 @@
-use crate::common::{Images, Pagination};
+use crate::utils::{Images, Pagination};
 use crate::{JikanClient, JikanError};
 
 use serde::{Deserialize, Serialize};
