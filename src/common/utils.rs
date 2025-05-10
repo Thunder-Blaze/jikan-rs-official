@@ -5,13 +5,8 @@ use serde::{Deserialize, Serialize};
 pub struct Pagination {
     pub last_visible_page: i32,
     pub has_next_page: bool,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PaginationPlus {
-    pub last_visible_page: i32,
-    pub has_next_page: bool,
-    pub items: PaginationItems,
+    pub current_page: Option<i32>,
+    pub items: Option<PaginationItems>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -32,6 +27,11 @@ pub struct ImageSet {
     pub image_url: Option<String>,
     pub small_image_url: Option<String>,
     pub large_image_url: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Date {
+    
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

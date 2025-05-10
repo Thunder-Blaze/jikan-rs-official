@@ -7,6 +7,7 @@ pub mod anime;
 pub mod character;
 pub mod clubs;
 pub mod common;
+use common::utils;
 pub mod genre;
 pub mod magazines;
 pub mod manga;
