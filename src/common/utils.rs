@@ -49,3 +49,9 @@ pub struct Title {
     pub r#type: String,
     pub title: String,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ExternalEntry {
+    pub name: String,
+    pub url: String,
+}
