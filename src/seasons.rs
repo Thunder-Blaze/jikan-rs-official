@@ -1,38 +1,17 @@
-use serde::{Deserialize, Serialize};
-
-use crate::{JikanClient, JikanError, anime::*, utils::Pagination};
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SeasonResponse {
-    pub data: Vec<Anime>,
-    pub pagination: Pagination,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SeasonsListResponse {
-    pub data: Vec<SeasonInfo>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SeasonInfo {
-    pub year: u32,
-    pub seasons: Vec<String>,
-}
-
-pub enum FilterType {
-    None,
-    TV,
-    Movie,
-    OVA,
-    Special,
-    ONA,
-    Music,
-}
+use crate::{
+    JikanClient, JikanError,
+    common::response::Response,
+    enums::season::SeasonFilter,
+    structs::{
+        season::SeasonInfo,
+        anime::Anime,
+    },
+};
 
 /// Configuration options for season queries
 #[derive(Default)]
 pub struct SeasonQueryParams {
-    filter: Option<FilterType>,
+    filter: Option<SeasonFilter>,
     sfw: Option<bool>,
     unapproved: Option<bool>,
     continuing: Option<bool>,
@@ -47,7 +26,7 @@ impl SeasonQueryParams {
     }
 
     /// Set the filter type for the query
-    pub fn filter(mut self, filter: FilterType) -> Self {
+    pub fn filter(mut self, filter: SeasonFilter) -> Self {
         self.filter = Some(filter);
         self
     }
@@ -87,18 +66,7 @@ impl SeasonQueryParams {
         let mut params = Vec::new();
 
         if let Some(f) = &self.filter {
-            let filter_str = match f {
-                FilterType::None => String::new(),
-                FilterType::TV => "tv".to_string(),
-                FilterType::Movie => "movie".to_string(),
-                FilterType::OVA => "ova".to_string(),
-                FilterType::Special => "special".to_string(),
-                FilterType::ONA => "ona".to_string(),
-                FilterType::Music => "music".to_string(),
-            };
-            if !filter_str.is_empty() {
-                params.push(format!("filter={}", filter_str));
-            }
+            params.push(format!("filter={}", f.as_str()));
         }
 
         if let Some(s) = self.sfw {
@@ -140,7 +108,7 @@ impl JikanClient {
     pub async fn get_season_now(
         &self,
         params: Option<SeasonQueryParams>,
-    ) -> Result<SeasonResponse, JikanError> {
+    ) -> Result<Response<Vec<Anime>>, JikanError> {
         let query = params.map(|p| p.to_query_params()).unwrap_or_default();
         self.get(&format!("/seasons/now{}", query)).await
     }
@@ -151,14 +119,14 @@ impl JikanClient {
         year: u32,
         season: &str,
         params: Option<SeasonQueryParams>,
-    ) -> Result<SeasonResponse, JikanError> {
+    ) -> Result<Response<Vec<Anime>>, JikanError> {
         let query = params.map(|p| p.to_query_params()).unwrap_or_default();
         self.get(&format!("/seasons/{}/{}{}", year, season, query))
             .await
     }
 
     /// Returns the list of available seasons
-    pub async fn get_seasons_list(&self) -> Result<SeasonsListResponse, JikanError> {
+    pub async fn get_seasons_list(&self) -> Result<Response<Vec<SeasonInfo>>, JikanError> {
         self.get("/seasons").await
     }
 
@@ -166,7 +134,7 @@ impl JikanClient {
     pub async fn get_season_upcoming(
         &self,
         params: Option<SeasonQueryParams>,
-    ) -> Result<SeasonResponse, JikanError> {
+    ) -> Result<Response<Vec<Anime>>, JikanError> {
         let query = params.map(|p| p.to_query_params()).unwrap_or_default();
         self.get(&format!("/seasons/upcoming{}", query)).await
     }

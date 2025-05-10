@@ -1,19 +1,23 @@
 // Season Filter
 // "tv" "movie" "ova" "special" "ona" "music"
 pub enum SeasonFilter {
-    Winter,
-    Spring,
-    Summer,
-    Fall,
+    TV,
+    Movie,
+    OVA,
+    Special,
+    ONA,
+    Music,
 }
 
 impl SeasonFilter {
-    pub fn as_str(&self) -> &'static str {
+    pub fn as_str(&self) -> &str {
         match self {
-            SeasonFilter::Winter => "winter",
-            SeasonFilter::Spring => "spring",
-            SeasonFilter::Summer => "summer",
-            SeasonFilter::Fall => "fall",
+            SeasonFilter::TV => "tv",
+            SeasonFilter::Movie => "movie",
+            SeasonFilter::OVA => "ova",
+            SeasonFilter::Special => "special",
+            SeasonFilter::ONA => "ona",
+            SeasonFilter::Music => "music",
         }
     }
 }

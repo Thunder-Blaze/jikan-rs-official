@@ -1,6 +1,9 @@
 use crate::common::wait_between_tests;
 use jikan_rs::JikanClient;
-use jikan_rs::seasons::{FilterType, SeasonQueryParams};
+use jikan_rs::{
+    seasons::SeasonQueryParams,
+    common::enums::season::SeasonFilter,
+};
 use serial_test::serial;
 
 mod common;
@@ -19,7 +22,7 @@ async fn test_get_season_now() {
 async fn test_get_season_now_with_filters() {
     let client = JikanClient::new();
     let params = SeasonQueryParams::new()
-        .filter(FilterType::TV)
+        .filter(SeasonFilter::TV)
         .sfw(true)
         .page(1)
         .limit(10);
@@ -43,7 +46,7 @@ async fn test_get_specific_season() {
 async fn test_get_specific_season_with_filters() {
     let client = JikanClient::new();
     let params = SeasonQueryParams::new()
-        .filter(FilterType::Movie)
+        .filter(SeasonFilter::Movie)
         .sfw(true)
         .page(1)
         .limit(5);
@@ -75,7 +78,7 @@ async fn test_get_season_upcoming() {
 async fn test_get_season_upcoming_with_filters() {
     let client = JikanClient::new();
     let params = SeasonQueryParams::new()
-        .filter(FilterType::TV)
+        .filter(SeasonFilter::TV)
         .sfw(true)
         .continuing(true)
         .page(1)
