@@ -1,12 +1,14 @@
 use crate::{
     JikanClient, JikanError,
-    utils::Pagination,
+    utils::{Pagination, ExternalEntry},
+    enums::forum::ForumFilter,
     structs::{
         character::Character,
         manga::Manga,
+        reviews::Review,
+        users::UserUpdate
     },
     misc::*,
-    users::*,
     response::Response,
 };
 use serde::{Deserialize, Serialize};
@@ -24,11 +26,6 @@ pub struct MangaNews {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct MangaForum {
-    pub data: Vec<ForumTopic>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MangaStatistics {
     pub reading: i32,
     pub completed: i32,
@@ -42,12 +39,6 @@ pub struct MangaStatistics {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MoreInfo {
     pub moreinfo: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct MangaUserUpdates {
-    pub data: Vec<UserUpdate>,
-    pub pagination: Pagination,
 }
 
 impl JikanClient {
@@ -68,10 +59,12 @@ impl JikanClient {
         id: i32,
         page: Option<u32>,
     ) -> Result<MangaNews, JikanError> {
-        let path = match page {
-            Some(p) => format!("/manga/{}/news?page={}", id, p),
-            None => format!("/manga/{}/news", id),
-        };
+        let mut path = format!("/manga/{}/news", id);
+        
+        if let Some(p) = page {
+            path = format!("/manga/{}/news?page={}", id, p);
+        }
+
         self.get(&path).await
     }
 
@@ -79,11 +72,13 @@ impl JikanClient {
         &self,
         id: i32,
         filter: Option<ForumFilter>,
-    ) -> Result<MangaForum, JikanError> {
-        let path = match filter {
-            Some(f) => format!("/manga/{}/forum?filter={:#?}", id, f),
-            None => format!("/manga/{}/forum", id),
+    ) -> Result<Vec<ForumTopic>, JikanError> {
+        let mut path = format!("/manga/{}/forum", id);
+
+        if let Some(p) = filter {
+            path = format!("/manga/{}/forum?filter={}", id, p.as_str());
         };
+
         self.get(&path).await
     }
 
@@ -116,11 +111,13 @@ impl JikanClient {
         &self,
         id: i32,
         page: Option<u32>,
-    ) -> Result<MangaUserUpdates, JikanError> {
-        let path = match page {
-            Some(p) => format!("/manga/{}/userupdates?page={}", id, p),
-            None => format!("/manga/{}/userupdates", id),
-        };
+    ) -> Result<Response<Vec<UserUpdate>>, JikanError> {
+        let mut path = format!("/manga/{}/userupdates", id);
+        
+        if let Some(p) = page {
+            path = format!("/manga/{}/userupdates?page={}", id, p);
+        }
+
         self.get(&path).await
     }
 
@@ -136,9 +133,11 @@ impl JikanClient {
         if let Some(p) = page {
             params.push(format!("page={}", p));
         }
+        
         if let Some(pr) = preliminary {
             params.push(format!("preliminary={}", pr));
         }
+        
         if let Some(sp) = spoilers {
             params.push(format!("spoilers={}", sp));
         }
@@ -162,7 +161,7 @@ impl JikanClient {
     pub async fn get_manga_external(
         &self,
         id: i32,
-    ) -> Result<Response<Vec<ExternalLink>>, JikanError> {
+    ) -> Result<Response<Vec<ExternalEntry>>, JikanError> {
         self.get(&format!("/manga/{}/external", id)).await
     }
 }

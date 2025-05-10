@@ -1,14 +1,11 @@
 // anime.rs
 use crate::{
-    JikanClient, JikanError,
-    structs::{
+    common::utils::ExternalEntry, misc::*, response::Response, structs::{
         character::Character,
         people::Person,
-    },
-    utils::{DateRange, Images, Pagination},
-    misc::*,
-    users::*,
-    response::Response,
+        reviews::Review,
+        users::UserUpdate,
+    }, utils::{DateRange, Images, Pagination}, JikanClient, JikanError, enums::forum::ForumFilter,
 };
 use serde::{Deserialize, Serialize};
 
@@ -156,14 +153,14 @@ impl JikanClient {
     pub async fn get_anime_external(
         &self,
         id: i32,
-    ) -> Result<Response<Vec<ExternalLink>>, JikanError> {
+    ) -> Result<Response<Vec<ExternalEntry>>, JikanError> {
         self.get(&format!("/anime/{}/external", id)).await
     }
 
     pub async fn get_anime_streaming(
         &self,
         id: i32,
-    ) -> Result<Response<Vec<ExternalLink>>, JikanError> {
+    ) -> Result<Response<Vec<ExternalEntry>>, JikanError> {
         self.get(&format!("/anime/{}/streaming", id)).await
     }
 
@@ -184,10 +181,12 @@ impl JikanClient {
         id: i32,
         filter: Option<ForumFilter>,
     ) -> Result<AnimeForum, JikanError> {
-        let path = match filter {
-            Some(f) => format!("/anime/{}/forum?filter={:#?}", id, f),
-            None => format!("/anime/{}/forum", id),
-        };
+        let mut path = format!("/anime/{}/forum", id);
+        
+        if let Some(p) = filter {
+            path = format!("/anime/{}/forum?filter={}", id, p.as_str());
+        }
+        
         self.get(&path).await
     }
 
