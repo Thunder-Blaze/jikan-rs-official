@@ -22,10 +22,6 @@ impl JikanClient {
         self.get("/random/characters").await
     }
 
-    pub async fn get_random_person(&self) -> Result<Response<Person>, JikanError> {
-        self.get("/random/people").await
-    }
-
     pub async fn get_random_people(&self) -> Result<Response<Person>, JikanError> {
         // same as api name
         self.get("/random/people").await

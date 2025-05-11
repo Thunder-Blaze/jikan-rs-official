@@ -43,7 +43,7 @@ async fn get_character_random() {
 #[serial]
 async fn get_person_random() {
     let client = JikanClient::new();
-    let result = client.get_random_person().await;
+    let result = client.get_random_people().await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }

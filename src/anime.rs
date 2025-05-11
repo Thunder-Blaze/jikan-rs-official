@@ -9,7 +9,9 @@ use crate::{
     format_search_query,
     response::Response,
     structs::{
-        anime::{Anime, AnimeForum, AnimeStatistics, AnimeThemes, MoreInfo, StaffMember, AnimeRelation},
+        anime::{
+            Anime, AnimeForum, AnimeRelation, AnimeStatistics, AnimeThemes, MoreInfo, StaffMember,
+        },
         character::CharacterRole,
         forum::NewsItem,
         recommendation::RecommendationAlt,

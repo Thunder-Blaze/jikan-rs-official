@@ -23,15 +23,18 @@ pub struct GetUsersParams {
 }
 
 impl JikanClient {
-    pub async fn get_user_full(&self, username: &str) -> Result<Response<User>, JikanError> {
+    pub async fn get_user_full_profile(
+        &self,
+        username: &str,
+    ) -> Result<Response<User>, JikanError> {
         self.get(&format!("/users/{}/full", username)).await
     }
 
-    pub async fn get_user(&self, username: &str) -> Result<Response<User>, JikanError> {
+    pub async fn get_user_profile(&self, username: &str) -> Result<Response<User>, JikanError> {
         self.get(&format!("/users/{}", username)).await
     }
 
-    pub async fn get_users(
+    pub async fn get_user_search(
         &self,
         param: GetUsersParams,
     ) -> Result<Response<Vec<User>>, JikanError> {
@@ -79,7 +82,10 @@ impl JikanClient {
         self.get(&format!("/users/userbyid/{}", id)).await
     }
 
-    pub async fn get_user_stats(&self, username: &str) -> Result<Response<UserStats>, JikanError> {
+    pub async fn get_user_statistics(
+        &self,
+        username: &str,
+    ) -> Result<Response<UserStats>, JikanError> {
         self.get(&format!("/users/{}/statistics", username)).await
     }
 
