@@ -18,11 +18,13 @@ async fn test_get_season_now() {
 #[serial]
 async fn test_get_season_now_with_filters() {
     let client = JikanClient::new();
-    let params = SeasonQueryParams::new()
-        .filter(SeasonFilter::TV)
-        .sfw(true)
-        .page(1)
-        .limit(10);
+    let params = SeasonQueryParams {
+        filter: Some(SeasonFilter::TV),
+        sfw: Some(true),
+        page: Some(1),
+        limit: Some(10),
+        ..Default::default()
+    };
     let result = client.get_season_now(Some(params)).await;
     assert!(result.is_ok(), "Failed to get current season with filters");
     wait_between_tests().await;
@@ -42,11 +44,13 @@ async fn test_get_specific_season() {
 #[serial]
 async fn test_get_specific_season_with_filters() {
     let client = JikanClient::new();
-    let params = SeasonQueryParams::new()
-        .filter(SeasonFilter::Movie)
-        .sfw(true)
-        .page(1)
-        .limit(5);
+    let params = SeasonQueryParams {
+        filter: Some(SeasonFilter::Movie),
+        sfw: Some(true),
+        page: Some(1),
+        limit: Some(5),
+        ..Default::default()
+    };
     let result = client.get_season(2023, "winter", Some(params)).await;
     assert!(result.is_ok(), "Failed to get specific season with filters");
     wait_between_tests().await;
@@ -74,12 +78,14 @@ async fn test_get_season_upcoming() {
 #[serial]
 async fn test_get_season_upcoming_with_filters() {
     let client = JikanClient::new();
-    let params = SeasonQueryParams::new()
-        .filter(SeasonFilter::TV)
-        .sfw(true)
-        .continuing(true)
-        .page(1)
-        .limit(10);
+    let params = SeasonQueryParams {
+        filter: Some(SeasonFilter::TV),
+        sfw: Some(true),
+        continuing: Some(true),
+        page: Some(1),
+        limit: Some(5),
+        ..Default::default()
+    };
     let result = client.get_season_upcoming(Some(params)).await;
     assert!(result.is_ok(), "Failed to get upcoming season with filters");
     wait_between_tests().await;
