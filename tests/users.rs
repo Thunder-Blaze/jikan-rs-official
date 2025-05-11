@@ -1,6 +1,6 @@
 use crate::common::wait_between_tests;
 use jikan_rs::JikanClient;
-use jikan_rs::users::*;
+use jikan_rs::users::GetUsersParams;
 use serial_test::serial;
 mod common;
 
@@ -31,7 +31,7 @@ async fn get_users() {
             page: None,
             limit: None,
             q: None,
-            gender: Gender::None,
+            gender: None,
             location: None,
             min_age: None,
             max_age: None,
@@ -73,6 +73,7 @@ async fn get_user_friends() {
 async fn get_user_reviews() {
     let client = JikanClient::new();
     let result = client.get_user_reviews("eren", Some(1)).await;
+    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -82,7 +83,7 @@ async fn get_user_reviews() {
 async fn get_user_history() {
     let client = JikanClient::new();
     let result = client
-        .get_user_history("Kisaragi_Toka", UserHistoryType::None)
+        .get_user_history("Kisaragi_Toka", None)
         .await;
     assert!(result.is_ok());
     wait_between_tests().await;

@@ -32,7 +32,7 @@ pub struct Review {
     pub reactions: Option<ReviewReactions>,
     pub review: String,
     pub score: u32,
-    pub entry: EntryMeta,
+    pub entry: Option<EntryMeta>,
     pub user: Option<User>,
     pub date: String,
     pub tags: Vec<String>,

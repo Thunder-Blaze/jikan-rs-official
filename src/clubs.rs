@@ -2,6 +2,7 @@ use crate::{
     JikanClient, JikanError,
     utils::{Images, Pagination},
     response::Response,
+    structs::clubs::Club
 };
 use serde::{Deserialize, Serialize};
 
@@ -11,17 +12,6 @@ pub struct ClubVectorResponse<T> {
     pub pagination: Option<Pagination>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Club {
-    pub mal_id: i32,
-    pub url: String,
-    pub images: Images,
-    pub name: String,
-    pub members: i32,
-    pub category: String,
-    pub created: String,
-    pub access: String,
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ClubMember {

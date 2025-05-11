@@ -13,7 +13,7 @@ impl Gender {
             Gender::Any => "any",
             Gender::Male => "male",
             Gender::Female => "female",
-            Gender::Nonbinary => "nonbinary",
+            Gender::NonBinary => "nonbinary",
         }
     }
 }
