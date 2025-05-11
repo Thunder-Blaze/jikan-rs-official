@@ -1,14 +1,14 @@
 //user.rs
 use crate::{
     JikanClient, JikanError,
-    anime::Anime,
     structs::{
         manga::Manga,
         character::Character,
         people::Person,
+        anime::Anime
     },
+    response::MalCommonResponse,
     utils::{Images, Pagination},
-    misc::RelatedEntry,
     structs::recommendation::Recommendation,
     structs::reviews::Review,
 };
@@ -130,7 +130,7 @@ pub struct Friend {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UserHistory {
-    pub entry: RelatedEntry,
+    pub entry: MalCommonResponse,
     pub increment: Option<i32>,
     pub date: Option<String>,
 }

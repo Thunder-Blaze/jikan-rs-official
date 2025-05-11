@@ -19,3 +19,9 @@ pub struct Recommendation {
     pub content: String,
     pub user: User,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RecommendationAlt {
+    pub entry: RecommendationEntry,
+    pub votes: i32,
+}

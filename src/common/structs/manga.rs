@@ -53,3 +53,10 @@ pub struct MangaExtended {
     pub themes: Vec<MalCommonResponse>,
     pub demographics: Vec<MalCommonResponse>,
 }
+
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct MangaRelation {
+    pub relation: String,
+    pub entry: Vec<MalCommonResponse>,
+}

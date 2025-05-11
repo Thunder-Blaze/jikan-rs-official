@@ -18,7 +18,7 @@ pub struct PaginationItems {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Images {
-    pub jpg: ImageSet,
+    pub jpg: Option<ImageSet>,
     pub webp: Option<ImageSet>,
 }
 
@@ -54,4 +54,12 @@ pub struct Title {
 pub struct ExternalEntry {
     pub name: String,
     pub url: String,
+}
+
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Score {
+    pub score: i32,
+    pub votes: i32,
+    pub percentage: f32,
 }

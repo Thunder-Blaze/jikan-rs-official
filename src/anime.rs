@@ -1,98 +1,16 @@
 // anime.rs
 use crate::{
-    common::utils::ExternalEntry, misc::*, response::Response, structs::{
-        character::Character,
-        people::Person,
+    utils::{ExternalEntry, Images},
+    enums::forum::ForumFilter,
+    response::Response, structs::{
+        anime::{
+            Anime, AnimeCharacter, AnimeForum, AnimeStatistics, AnimeThemes, Episode, MoreInfo, StaffMember, Videos
+        }, forum::NewsItem,
         reviews::Review,
         users::UserUpdate,
-    }, utils::{DateRange, Images, Pagination}, JikanClient, JikanError, enums::forum::ForumFilter,
+        recommendation::RecommendationAlt
+    }, JikanClient, JikanError
 };
-use serde::{Deserialize, Serialize};
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Anime {
-    pub mal_id: i32,
-    pub url: String,
-    pub images: Images,
-    pub title: String,
-    pub start_year: Option<u32>,
-    pub title_english: Option<String>,
-    pub title_japanese: Option<String>,
-    pub episodes: Option<i32>,
-    pub status: Option<String>,
-    pub score: Option<f32>,
-    pub synopsis: Option<String>,
-    pub aired: Option<DateRange>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AnimeCharacters {
-    pub data: Vec<AnimeCharacter>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AnimeCharacter {
-    pub character: Character,
-    pub role: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AnimeStaff {
-    pub data: Vec<StaffMember>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct StaffMember {
-    pub person: Person,
-    pub positions: Vec<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AnimeEpisodes {
-    pub data: Vec<Episode>,
-    pub pagination: Pagination,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Episode {
-    pub mal_id: i32,
-    pub url: Option<String>,
-    pub title: String,
-    pub episode: Option<String>,
-    pub aired: Option<String>,
-    pub score: Option<f32>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AnimeVideos {
-    pub data: Videos,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Videos {
-    pub promo: Vec<PromoVideo>,
-    pub episodes: Vec<EpisodeVideo>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PromoVideo {
-    pub title: String,
-    pub trailer: VideoMeta,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct VideoMeta {
-    pub youtube_id: Option<String>,
-    pub url: Option<String>,
-    pub embed_url: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct EpisodeVideo {
-    pub episode: String,
-    pub url: String,
-    pub title: String,
-}
 
 impl JikanClient {
     pub async fn get_anime(&self, id: i32) -> Result<Response<Anime>, JikanError> {
@@ -103,11 +21,11 @@ impl JikanClient {
         self.get(&format!("/anime/{}/full", id)).await
     }
 
-    pub async fn get_anime_characters(&self, id: i32) -> Result<AnimeCharacters, JikanError> {
+    pub async fn get_anime_characters(&self, id: i32) -> Result<Response<Vec<AnimeCharacter>>, JikanError> {
         self.get(&format!("/anime/{}/characters", id)).await
     }
 
-    pub async fn get_anime_staff(&self, id: i32) -> Result<AnimeStaff, JikanError> {
+    pub async fn get_anime_staff(&self, id: i32) -> Result<Response<Vec<StaffMember>>, JikanError> {
         self.get(&format!("/anime/{}/staff", id)).await
     }
 
@@ -115,11 +33,13 @@ impl JikanClient {
         &self,
         id: i32,
         page: Option<u32>,
-    ) -> Result<AnimeEpisodes, JikanError> {
-        let path = match page {
-            Some(p) => format!("/anime/{}/episodes?page={}", id, p),
-            None => format!("/anime/{}/episodes", id),
+    ) -> Result<Response<Vec<Episode>>, JikanError> {
+        let mut path = format!("/anime/{}/episodes", id);
+        
+        if let Some(p) = page {
+            path = format!("/anime/{}/episodes?page={}", id, p);
         };
+
         self.get(&path).await
     }
 
@@ -132,7 +52,7 @@ impl JikanClient {
             .await
     }
 
-    pub async fn get_anime_videos(&self, id: i32) -> Result<AnimeVideos, JikanError> {
+    pub async fn get_anime_videos(&self, id: i32) -> Result<Response<Videos>, JikanError> {
         self.get(&format!("/anime/{}/videos", id)).await
     }
 
@@ -168,11 +88,13 @@ impl JikanClient {
         &self,
         id: i32,
         page: Option<u32>,
-    ) -> Result<AnimeNews, JikanError> {
-        let path = match page {
-            Some(p) => format!("/anime/{}/news?page={}", id, p),
-            None => format!("/anime/{}/news", id),
-        };
+    ) -> Result<Response<Vec<NewsItem>>, JikanError> {
+        let mut path = format!("/anime/{}/news", id);
+        
+        if let Some(p) = page {
+            path = format!("/anime/{}/news?page={}", id, p);
+        }
+
         self.get(&path).await
     }
 
@@ -194,18 +116,20 @@ impl JikanClient {
         &self,
         id: i32,
         page: Option<u32>,
-    ) -> Result<AnimeVideosEpisodes, JikanError> {
-        let path = match page {
-            Some(p) => format!("/anime/{}/videos/episodes?page={}", id, p),
-            None => format!("/anime/{}/videos/episodes", id),
-        };
+    ) -> Result<Response<Vec<Episode>>, JikanError> {
+        let mut path = format!("/anime/{}/videos/episodes", id);
+
+        if let Some(p) = page {
+            path = format!("/anime/{}/videos/episodes?page={}", id, p);
+        }
+
         self.get(&path).await
     }
 
     pub async fn get_anime_pictures(
         &self,
         id: i32,
-    ) -> Result<Response<Vec<Picture>>, JikanError> {
+    ) -> Result<Response<Vec<Images>>, JikanError> {
         self.get(&format!("/anime/{}/pictures", id)).await
     }
 
@@ -216,7 +140,7 @@ impl JikanClient {
     pub async fn get_anime_recommendations(
         &self,
         id: i32,
-    ) -> Result<Response<Vec<Recommendation>>, JikanError> {
+    ) -> Result<Response<Vec<RecommendationAlt>>, JikanError> {
         self.get(&format!("/anime/{}/recommendations", id)).await
     }
 
@@ -224,11 +148,13 @@ impl JikanClient {
         &self,
         id: i32,
         page: Option<u32>,
-    ) -> Result<AnimeUserUpdates, JikanError> {
-        let path = match page {
-            Some(p) => format!("/anime/{}/userupdates?page={}", id, p),
-            None => format!("/anime/{}/userupdates", id),
-        };
+    ) -> Result<Response<Vec<UserUpdate>>, JikanError> {
+        let mut path = format!("/anime/{}/userupdates", id);
+
+        if let Some(p) = page {
+            path = format!("/anime/{}/userupdates?page={}", id, p);
+        }
+
         self.get(&path).await
     }
 
@@ -259,54 +185,4 @@ impl JikanClient {
 
         self.get(&format!("/anime/{}/reviews{}", id, query)).await
     }
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AnimeThemes {
-    pub openings: Vec<String>,
-    pub endings: Vec<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AnimeNews {
-    pub data: Vec<NewsItem>,
-    pub pagination: Pagination,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AnimeForum {
-    pub data: Vec<ForumTopic>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AnimeVideosEpisodes {
-    pub data: Vec<EpisodeVideo>,
-    pub pagination: Pagination,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Picture {
-    pub images: Images,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct MoreInfo {
-    pub moreinfo: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AnimeUserUpdates {
-    pub data: Vec<UserUpdate>,
-    pub pagination: Pagination,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AnimeStatistics {
-    pub watching: i32,
-    pub completed: i32,
-    pub on_hold: i32,
-    pub dropped: i32,
-    pub plan_to_watch: i32,
-    pub total: i32,
-    pub scores: Vec<Score>,
 }

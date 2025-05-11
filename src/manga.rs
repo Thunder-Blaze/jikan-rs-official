@@ -1,15 +1,12 @@
 use crate::{
-    JikanClient, JikanError,
-    utils::{Pagination, ExternalEntry},
-    enums::forum::ForumFilter,
-    structs::{
-        character::Character,
-        manga::Manga,
-        reviews::Review,
-        users::UserUpdate
-    },
-    misc::*,
-    response::Response,
+    enums::forum::ForumFilter, response::Response, structs::{
+        character::Character, 
+        forum::{ForumTopic, NewsItem}, 
+        manga::{Manga, MangaRelation}, 
+        reviews::Review, 
+        users::UserUpdate,
+        recommendation::RecommendationAlt
+    }, utils::{ExternalEntry, Images, Pagination, Score}, JikanClient, JikanError
 };
 use serde::{Deserialize, Serialize};
 
@@ -85,7 +82,7 @@ impl JikanClient {
     pub async fn get_manga_pictures(
         &self,
         id: i32,
-    ) -> Result<Response<Vec<Picture>>, JikanError> {
+    ) -> Result<Response<Vec<Images>>, JikanError> {
         self.get(&format!("/manga/{}/pictures", id)).await
     }
 
@@ -103,7 +100,7 @@ impl JikanClient {
     pub async fn get_manga_recommendations(
         &self,
         id: i32,
-    ) -> Result<Response<Vec<Recommendation>>, JikanError> {
+    ) -> Result<Response<Vec<RecommendationAlt>>, JikanError> {
         self.get(&format!("/manga/{}/recommendations", id)).await
     }
 
@@ -154,7 +151,7 @@ impl JikanClient {
     pub async fn get_manga_relations(
         &self,
         id: i32,
-    ) -> Result<Response<Vec<Relation>>, JikanError> {
+    ) -> Result<Response<Vec<MangaRelation>>, JikanError> {
         self.get(&format!("/manga/{}/relations", id)).await
     }
 
