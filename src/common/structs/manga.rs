@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::{
-    utils::{Images, DateRange, Title},
+    utils::{Images, DateRange, Title, Score},
     response::MalCommonResponse,
 };
 
@@ -59,4 +59,20 @@ pub struct MangaExtended {
 pub struct MangaRelation {
     pub relation: String,
     pub entry: Vec<MalCommonResponse>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct MoreInfo {
+    pub moreinfo: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct MangaStatistics {
+    pub reading: i32,
+    pub completed: i32,
+    pub on_hold: i32,
+    pub dropped: i32,
+    pub plan_to_read: i32,
+    pub total: i32,
+    pub scores: Vec<Score>,
 }

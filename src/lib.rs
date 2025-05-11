@@ -14,7 +14,6 @@ use common::response;
 pub mod genre;
 pub mod magazines;
 pub mod manga;
-pub mod misc;
 pub mod people;
 pub mod producer;
 pub mod random;

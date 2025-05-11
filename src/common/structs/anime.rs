@@ -4,7 +4,6 @@ use crate::{
     response::MalCommonResponse,
     structs::{
         people::Person,
-        character::Character,
         forum::ForumTopic,
     }
 };
@@ -101,12 +100,6 @@ pub struct Episode {
 pub struct Videos {
     pub promo: Vec<PromoVideo>,
     pub episodes: Vec<Episode>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AnimeCharacter {
-    pub character: Character,
-    pub role: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

@@ -1,42 +1,13 @@
 use crate::{
     enums::forum::ForumFilter, response::Response, structs::{
-        character::Character, 
+        character::CharacterRole, 
         forum::{ForumTopic, NewsItem}, 
-        manga::{Manga, MangaRelation}, 
+        manga::{Manga, MangaRelation, MangaStatistics, MoreInfo}, 
         reviews::Review, 
         users::UserUpdate,
         recommendation::RecommendationAlt
-    }, utils::{ExternalEntry, Images, Pagination, Score}, JikanClient, JikanError
+    }, utils::{ExternalEntry, Images}, JikanClient, JikanError
 };
-use serde::{Deserialize, Serialize};
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct MangaCharacter {
-    pub character: Character,
-    pub role: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct MangaNews {
-    pub data: Vec<NewsItem>,
-    pub pagination: Pagination,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct MangaStatistics {
-    pub reading: i32,
-    pub completed: i32,
-    pub on_hold: i32,
-    pub dropped: i32,
-    pub plan_to_read: i32,
-    pub total: i32,
-    pub scores: Vec<Score>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct MoreInfo {
-    pub moreinfo: Option<String>,
-}
 
 impl JikanClient {
     pub async fn get_manga(&self, id: i32) -> Result<Response<Manga>, JikanError> {
@@ -47,7 +18,7 @@ impl JikanClient {
         self.get(&format!("/manga/{}/full", id)).await
     }
 
-    pub async fn get_manga_characters(&self, id: i32) -> Result<Vec<MangaCharacter>, JikanError> {
+    pub async fn get_manga_characters(&self, id: i32) -> Result<Vec<CharacterRole>, JikanError> {
         self.get(&format!("/manga/{}/characters", id)).await
     }
 
@@ -55,7 +26,7 @@ impl JikanClient {
         &self,
         id: i32,
         page: Option<u32>,
-    ) -> Result<MangaNews, JikanError> {
+    ) -> Result<Response<Vec<NewsItem>>, JikanError> {
         let mut path = format!("/manga/{}/news", id);
         
         if let Some(p) = page {

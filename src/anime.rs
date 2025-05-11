@@ -4,9 +4,10 @@ use crate::{
     enums::forum::ForumFilter,
     response::Response, structs::{
         anime::{
-            Anime, AnimeCharacter, AnimeForum, AnimeStatistics, AnimeThemes, Episode, MoreInfo, StaffMember, Videos
+            Anime, AnimeForum, AnimeStatistics, AnimeThemes, Episode, MoreInfo, StaffMember, Videos
         }, forum::NewsItem,
         reviews::Review,
+        character::CharacterRole,
         users::UserUpdate,
         recommendation::RecommendationAlt
     }, JikanClient, JikanError
@@ -21,7 +22,7 @@ impl JikanClient {
         self.get(&format!("/anime/{}/full", id)).await
     }
 
-    pub async fn get_anime_characters(&self, id: i32) -> Result<Response<Vec<AnimeCharacter>>, JikanError> {
+    pub async fn get_anime_characters(&self, id: i32) -> Result<Response<Vec<CharacterRole>>, JikanError> {
         self.get(&format!("/anime/{}/characters", id)).await
     }
 

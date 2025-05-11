@@ -1,44 +1,17 @@
 //user.rs
 use crate::{
-    JikanClient, JikanError,
+    response::{Response, MalCommonResponse},
+    enums::users::{Gender, UserHistoryType},
     structs::{
-        manga::Manga,
-        character::Character,
-        people::Person,
-        anime::Anime
-    },
-    response::MalCommonResponse,
-    utils::{Images, Pagination},
-    structs::recommendation::Recommendation,
-    structs::reviews::Review,
+        anime::Anime, 
+        character::Character, 
+        manga::Manga, 
+        people::Person, 
+        recommendation::Recommendation, 
+        reviews::Review
+    }, utils::{ExternalEntry, Images}, JikanClient, JikanError
 };
 use serde::{Deserialize, Serialize};
-
-pub enum Gender {
-    None,
-    Any,
-    Male,
-    Female,
-    NonBinary,
-}
-
-pub enum UserHistoryType {
-    None,
-    Anime,
-    Manga,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct UserResponse<T> {
-    pub data: T,
-    pub pagination: Option<Pagination>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct UserVectorResponse<T> {
-    pub data: Vec<T>,
-    pub pagination: Option<Pagination>,
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UserById {
@@ -84,12 +57,6 @@ pub struct UserStats {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UserAbout {
     pub about: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct UserExternal {
-    pub name: Option<String>,
-    pub url: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -150,12 +117,6 @@ pub struct UserUpdates {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct UserStatsResponse {
-    pub data: UserStats,
-    pub pagination: Option<Pagination>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct User {
     pub username: String,
     pub url: String,
@@ -173,36 +134,29 @@ pub struct GetUsersParams {
     pub page: Option<String>,
     pub limit: Option<u32>,
     pub q: Option<String>,
-    pub gender: Gender,
+    pub gender: Option<Gender>,
     pub location: Option<String>,
     pub max_age: Option<u32>,
     pub min_age: Option<u32>,
 }
 
 impl JikanClient {
-    pub async fn get_user_full(&self, username: &str) -> Result<UserResponse<User>, JikanError> {
+    pub async fn get_user_full(&self, username: &str) -> Result<Response<User>, JikanError> {
         self.get(&format!("/users/{}/full", username)).await
     }
 
-    pub async fn get_user(&self, username: &str) -> Result<UserResponse<User>, JikanError> {
+    pub async fn get_user(&self, username: &str) -> Result<Response<User>, JikanError> {
         self.get(&format!("/users/{}", username)).await
     }
 
     pub async fn get_users(
         &self,
         param: GetUsersParams,
-    ) -> Result<UserVectorResponse<User>, JikanError> {
+    ) -> Result<Response<Vec<User>>, JikanError> {
         let mut params = Vec::new();
 
-        let g = match param.gender {
-            Gender::None => String::new(),
-            Gender::Male => "male".to_string(),
-            Gender::Female => "female".to_string(),
-            Gender::Any => "any".to_string(),
-            Gender::NonBinary => "nonbinary".to_string(),
-        };
-        if !g.is_empty() {
-            params.push(format!("gender={}", g));
+        if let Some(g) = param.gender {
+            params.push(format!("gender={}", g.as_str()));
         }
 
         if let Some(q_str) = param.q {
@@ -238,19 +192,19 @@ impl JikanClient {
         self.get(&format!("/users/{}", query)).await
     }
 
-    pub async fn get_user_by_id(&self, id: i32) -> Result<UserResponse<UserById>, JikanError> {
+    pub async fn get_user_by_id(&self, id: i32) -> Result<Response<UserById>, JikanError> {
         //Maybe handle this better?
         self.get(&format!("/users/userbyid/{}", id)).await
     }
 
-    pub async fn get_user_stats(&self, username: &str) -> Result<UserStatsResponse, JikanError> {
+    pub async fn get_user_stats(&self, username: &str) -> Result<Response<UserStats>, JikanError> {
         self.get(&format!("/users/{}/statistics", username)).await
     }
 
     pub async fn get_user_updates(
         &self,
         username: &str,
-    ) -> Result<UserResponse<UserUpdates>, JikanError> {
+    ) -> Result<Response<UserUpdates>, JikanError> {
         self.get(&format!("/users/{}/userupdates", username)).await
     }
 
@@ -258,20 +212,21 @@ impl JikanClient {
         &self,
         username: &str,
         page: Option<u32>,
-    ) -> Result<UserVectorResponse<Friend>, JikanError> {
-        let pg = match page {
-            Some(x) => format!("?page={}", x),
-            None => "".to_string(),
-        };
-        self.get(&format!("/users/{}/friends{}", username, pg))
-            .await
+    ) -> Result<Response<Vec<Friend>>, JikanError> {
+        let mut path = format!("/users/{}/friends", username);
+
+        if let Some(p) = page {
+            path = format!("/users/{}/friends?page={}", username, p);
+        }
+
+        self.get(&path).await
     }
 
     pub async fn get_user_reviews(
         &self,
         username: &str,
         page: Option<u32>,
-    ) -> Result<UserVectorResponse<Review>, JikanError> {
+    ) -> Result<Response<Vec<Review>>, JikanError> {
         let mut params = String::new();
         if let Some(p) = page {
             params = format!("?page={}", p);
@@ -284,7 +239,7 @@ impl JikanClient {
         &self,
         username: &str,
         page: Option<u32>,
-    ) -> Result<UserVectorResponse<Recommendation>, JikanError> {
+    ) -> Result<Response<Vec<Recommendation>>, JikanError> {
         let mut params = String::new();
         if let Some(p) = page {
             params = format!("?page={}", p);
@@ -297,7 +252,7 @@ impl JikanClient {
         &self,
         username: &str,
         page: Option<u32>,
-    ) -> Result<UserVectorResponse<UserClub>, JikanError> {
+    ) -> Result<Response<Vec<UserClub>>, JikanError> {
         let mut params = String::new();
         if let Some(p) = page {
             params = format!("?page={}", p);
@@ -309,40 +264,41 @@ impl JikanClient {
     pub async fn get_user_history(
         &self,
         username: &str,
-        r#type: UserHistoryType,
-    ) -> Result<UserVectorResponse<UserHistory>, JikanError> {
+        r#type: Option<UserHistoryType>,
+    ) -> Result<Response<Vec<UserHistory>>, JikanError> {
         let mut params = Vec::new();
 
-        let g = match r#type {
-            UserHistoryType::None => String::new(),
-            UserHistoryType::Anime => "anime".to_string(),
-            UserHistoryType::Manga => "manga".to_string(),
-        };
-        if !g.is_empty() {
-            params.push(format!("type={}", g));
+        if let Some(g) = r#type {
+            params.push(format!("type={}", g.as_str()));
         }
 
-        self.get(&format!("/users/{}/history", username)).await
+        let query = if !params.is_empty() {
+            format!("?{}", params.join("&"))
+        } else {
+            String::new()
+        };
+
+        self.get(&format!("/users/{}/history{}", username, query)).await
     }
 
     pub async fn get_user_favorites(
         &self,
         username: &str,
-    ) -> Result<UserResponse<UserFavorite>, JikanError> {
+    ) -> Result<Response<UserFavorite>, JikanError> {
         self.get(&format!("/users/{}/favorites", username)).await
     }
 
     pub async fn get_user_external(
         &self,
         username: &str,
-    ) -> Result<UserVectorResponse<UserExternal>, JikanError> {
+    ) -> Result<Response<Vec<ExternalEntry>>, JikanError> {
         self.get(&format!("/users/{}/external", username)).await
     }
 
     pub async fn get_user_about(
         &self,
         username: &str,
-    ) -> Result<UserResponse<UserAbout>, JikanError> {
+    ) -> Result<Response<UserAbout>, JikanError> {
         self.get(&format!("/users/{}/about", username)).await
     }
 }

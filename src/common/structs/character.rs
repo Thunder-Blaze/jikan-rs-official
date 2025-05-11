@@ -50,3 +50,10 @@ pub struct CharacterExtended {
     pub manga: Option<Vec<MangaEntry>>,
     pub voices: Option<Vec<PersonEntry>>,
 }
+
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CharacterRole {
+    pub character: Character,
+    pub role: String,
+}
