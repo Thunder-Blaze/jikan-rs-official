@@ -61,7 +61,9 @@ impl JikanClient {
             }
 
             if let Some(u) = p.unapproved {
-                if u { query_params.push("unapproved".to_string()); }
+                if u {
+                    query_params.push("unapproved".to_string());
+                }
             }
 
             if let Some(p) = p.page {

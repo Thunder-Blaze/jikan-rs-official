@@ -1,12 +1,12 @@
 use crate::{
     JikanClient, JikanError,
-    response::Response,
-    structs::clubs::{Club, ClubMember, ClubRelations, ClubStaff},
     enums::{
-        clubs::{ClubOrder, ClubCategory, ClubType},
-        common::Sort
+        clubs::{ClubCategory, ClubOrder, ClubType},
+        common::Sort,
     },
     format_search_query,
+    response::Response,
+    structs::clubs::{Club, ClubMember, ClubRelations, ClubStaff},
 };
 
 // New struct for club search parameters
@@ -143,7 +143,7 @@ impl JikanClient {
                 let formatted_q = format_search_query(q);
                 query_params.push(format!("q={}", formatted_q));
             }
-            
+
             if let Some(p) = p.page {
                 query_params.push(format!("page={}", p));
             }
@@ -155,11 +155,11 @@ impl JikanClient {
             if let Some(c) = p.category {
                 query_params.push(format!("category={}", c.as_str()));
             }
-            
+
             if let Some(o) = p.order_by {
                 query_params.push(format!("order_by={}", o.as_str()));
             }
-            
+
             if let Some(s) = p.sort {
                 query_params.push(format!("sort={}", s.as_str()));
             }

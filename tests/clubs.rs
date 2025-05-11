@@ -1,6 +1,6 @@
 use crate::common::wait_between_tests;
 use jikan_rs::{
-    JikanClient, JikanError, 
+    JikanClient, JikanError,
     clubs::ClubSearchParams,
     common::enums::{
         clubs::{ClubCategory, ClubOrder, ClubType},

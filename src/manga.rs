@@ -1,10 +1,11 @@
 use crate::{
     JikanClient, JikanError,
     enums::{
-        forum::ForumFilter,
-        manga::{MangaOrder, MangaType, MangaStatus},
         common::Sort,
+        forum::ForumFilter,
+        manga::{MangaOrder, MangaStatus, MangaType},
     },
+    format_search_query,
     response::Response,
     structs::{
         character::CharacterRole,
@@ -15,7 +16,6 @@ use crate::{
         users::UserUpdate,
     },
     utils::{ExternalEntry, Images},
-    format_search_query,
 };
 
 #[derive(Default)]
@@ -178,7 +178,9 @@ impl JikanClient {
             }
 
             if let Some(u) = p.unapproved {
-                if u { query_params.push("unapproved".to_string()); }
+                if u {
+                    query_params.push("unapproved".to_string());
+                }
             }
 
             if let Some(p) = p.page {
@@ -252,7 +254,7 @@ impl JikanClient {
             if let Some(s) = p.start_date {
                 query_params.push(format!("start_date={}", s));
             }
-            
+
             if let Some(e) = p.end_date {
                 query_params.push(format!("end_date={}", e));
             }
