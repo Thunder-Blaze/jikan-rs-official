@@ -1,4 +1,5 @@
 // Character Order By
+// "mal_id" "name" "favorites"
 pub enum CharacterOrder {
     MalId,
     Name,
@@ -10,7 +11,7 @@ impl CharacterOrder {
         match self {
             CharacterOrder::MalId => "mal_id",
             CharacterOrder::Name => "name",
-            CharacterOrder::Favorites => "favourites",
+            CharacterOrder::Favorites => "favorites",
         }
     }
 }

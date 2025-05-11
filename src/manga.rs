@@ -18,7 +18,7 @@ impl JikanClient {
         self.get(&format!("/manga/{}/full", id)).await
     }
 
-    pub async fn get_manga_characters(&self, id: i32) -> Result<Vec<CharacterRole>, JikanError> {
+    pub async fn get_manga_characters(&self, id: i32) -> Result<Response<Vec<CharacterRole>>, JikanError> {
         self.get(&format!("/manga/{}/characters", id)).await
     }
 
@@ -40,7 +40,7 @@ impl JikanClient {
         &self,
         id: i32,
         filter: Option<ForumFilter>,
-    ) -> Result<Vec<ForumTopic>, JikanError> {
+    ) -> Result<Response<Vec<ForumTopic>>, JikanError> {
         let mut path = format!("/manga/{}/forum", id);
 
         if let Some(p) = filter {
