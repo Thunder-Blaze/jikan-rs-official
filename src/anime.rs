@@ -2,10 +2,11 @@
 use crate::{
     JikanClient, JikanError,
     enums::{
-        forum::ForumFilter,
+        anime::{AnimeOrder, AnimeRating, AnimeStatus, AnimeType},
         common::Sort,
-        anime::{AnimeOrder, AnimeType, AnimeRating, AnimeStatus},
+        forum::ForumFilter,
     },
+    format_search_query,
     response::Response,
     structs::{
         anime::{Anime, AnimeForum, AnimeStatistics, AnimeThemes, MoreInfo, StaffMember},
@@ -21,7 +22,7 @@ use crate::{
 
 #[derive(Default)]
 pub struct SearchParams<'a> {
-    pub q: Option<&'a str>,
+    pub q: Option<String>,
     pub unapproved: Option<bool>,
     pub page: Option<u32>,
     pub limit: Option<u32>,
@@ -43,21 +44,6 @@ pub struct SearchParams<'a> {
 }
 
 impl JikanClient {
-    fn format_search_query(query: &str) -> String {
-        query
-            .to_lowercase()
-            .chars()
-            .map(|c| match c {
-                ' ' => '-',
-                c if c.is_alphanumeric() => c,
-                _ => ' ',
-            })
-            .collect::<String>()
-            .split_whitespace()
-            .collect::<Vec<&str>>()
-            .join("-")
-    }
-
     pub async fn get_anime(&self, id: i32) -> Result<Response<Anime>, JikanError> {
         self.get(&format!("/anime/{}", id)).await
     }
@@ -70,11 +56,11 @@ impl JikanClient {
 
         if let Some(p) = params {
             if let Some(q) = p.q {
-                let formatted_q = Self::format_search_query(q);
+                let formatted_q = format_search_query(q);
                 query_params.push(format!("q={}", formatted_q));
             }
             if let Some(u) = p.unapproved {
-                query_params.push(format!("unapproved={}", u));
+                if u { query_params.push("unapproved".to_string()); }
             }
             if let Some(p) = p.page {
                 query_params.push(format!("page={}", p));

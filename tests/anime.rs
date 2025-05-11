@@ -1,8 +1,8 @@
 use crate::common::wait_between_tests;
 use jikan_rs::{
     JikanClient, JikanError,
-    common::enums::anime::{AnimeType, AnimeOrder, AnimeRating, AnimeStatus},
     anime::SearchParams,
+    common::enums::anime::{AnimeOrder, AnimeRating, AnimeStatus, AnimeType},
     common::enums::common::Sort,
 };
 use serial_test::serial;
@@ -22,7 +22,7 @@ async fn get_anime() {
 async fn get_anime_search() {
     let client = JikanClient::new();
     let params = SearchParams {
-        q: Some("Death"),
+        q: Some("Death".to_string()),
         status: Some(AnimeStatus::Complete),
         sfw: Some(false),
         limit: Some(10),

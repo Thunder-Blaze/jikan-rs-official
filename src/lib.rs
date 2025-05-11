@@ -85,3 +85,18 @@ impl Default for JikanClient {
         Self::new()
     }
 }
+
+pub fn format_search_query(query: String) -> String {
+    query
+        .to_lowercase()
+        .chars()
+        .map(|c| match c {
+            ' ' => '-',
+            c if c.is_alphanumeric() => c,
+            _ => ' ',
+        })
+        .collect::<String>()
+        .split_whitespace()
+        .collect::<Vec<&str>>()
+        .join("-")
+}
