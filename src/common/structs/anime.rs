@@ -5,6 +5,7 @@ use crate::{
     structs::{
         people::Person,
         forum::ForumTopic,
+        watch::Trailer,
     }
 };
 
@@ -30,13 +31,6 @@ pub struct Broadcast {
     pub time: Option<String>,
     pub timezone: Option<String>,
     pub string: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Trailer {
-    pub youtube_id: Option<String>,
-    pub url: Option<String>,
-    pub embed_url: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -77,29 +71,6 @@ pub struct AnimeExtended {
     pub explicit_genres: Option<Vec<MalCommonResponse>>,
     pub themes: Option<Vec<MalCommonResponse>>,
     pub demographics: Option<Vec<MalCommonResponse>>,
-}
-
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PromoVideo {
-    pub title: String,
-    pub trailer: Trailer,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Episode {
-    pub mal_id: i32,
-    pub url: Option<String>,
-    pub title: String,
-    pub episode: Option<String>,
-    pub aired: Option<String>,
-    pub score: Option<f32>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Videos {
-    pub promo: Vec<PromoVideo>,
-    pub episodes: Vec<Episode>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

@@ -4,8 +4,10 @@ use crate::{
     enums::forum::ForumFilter,
     response::Response, structs::{
         anime::{
-            Anime, AnimeForum, AnimeStatistics, AnimeThemes, Episode, MoreInfo, StaffMember, Videos
-        }, forum::NewsItem,
+            Anime, AnimeForum, AnimeStatistics, AnimeThemes, MoreInfo, StaffMember
+        },
+        watch::{Episode, Videos},
+        forum::NewsItem,
         reviews::Review,
         character::CharacterRole,
         users::UserUpdate,
