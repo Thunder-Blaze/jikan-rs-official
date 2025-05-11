@@ -1,13 +1,15 @@
 //user.rs
 use crate::{
-    response::Response,
+    JikanClient, JikanError,
     enums::users::{Gender, UserHistoryType},
+    response::Response,
     structs::{
-        recommendation::Recommendation, 
-        reviews::Review,
-        users::{User, UserStats, UserUpdates, Friend, UserHistory, UserFavorite, UserAbout},
         clubs::Club,
-    }, utils::ExternalEntry, JikanClient, JikanError
+        recommendation::Recommendation,
+        reviews::Review,
+        users::{Friend, User, UserAbout, UserFavorite, UserHistory, UserStats, UserUpdates},
+    },
+    utils::ExternalEntry,
 };
 
 pub struct GetUsersParams {
@@ -158,7 +160,8 @@ impl JikanClient {
             String::new()
         };
 
-        self.get(&format!("/users/{}/history{}", username, query)).await
+        self.get(&format!("/users/{}/history{}", username, query))
+            .await
     }
 
     pub async fn get_user_favorites(
@@ -175,10 +178,7 @@ impl JikanClient {
         self.get(&format!("/users/{}/external", username)).await
     }
 
-    pub async fn get_user_about(
-        &self,
-        username: &str,
-    ) -> Result<Response<UserAbout>, JikanError> {
+    pub async fn get_user_about(&self, username: &str) -> Result<Response<UserAbout>, JikanError> {
         self.get(&format!("/users/{}/about", username)).await
     }
 }

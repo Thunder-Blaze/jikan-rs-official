@@ -1,9 +1,6 @@
 use crate::common::wait_between_tests;
 use jikan_rs::JikanClient;
-use jikan_rs::{
-    seasons::SeasonQueryParams,
-    common::enums::season::SeasonFilter,
-};
+use jikan_rs::{common::enums::season::SeasonFilter, seasons::SeasonQueryParams};
 use serial_test::serial;
 
 mod common;

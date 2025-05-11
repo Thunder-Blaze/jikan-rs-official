@@ -1,27 +1,18 @@
 // producers.rs
 use crate::{
     JikanClient, JikanError,
-    enums::{
-        common::Sort,
-        producers::ProducersOrder,
-    },
+    enums::{common::Sort, producers::ProducersOrder},
     response::Response,
     structs::producers::Producer,
     utils::ExternalEntry,
 };
 
 impl JikanClient {
-    pub async fn get_producer_by_id(
-        &self,
-        id: i32,
-    ) -> Result<Response<Producer>, JikanError> {
+    pub async fn get_producer_by_id(&self, id: i32) -> Result<Response<Producer>, JikanError> {
         self.get(&format!("/producers/{}", id)).await
     }
 
-    pub async fn get_producer_full_by_id(
-        &self,
-        id: i32,
-    ) -> Result<Response<Producer>, JikanError> {
+    pub async fn get_producer_full_by_id(&self, id: i32) -> Result<Response<Producer>, JikanError> {
         self.get(&format!("/producers/{}/full", id)).await
     }
 

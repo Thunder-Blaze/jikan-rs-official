@@ -2,10 +2,7 @@ use crate::{
     JikanClient, JikanError,
     common::response::Response,
     enums::season::SeasonFilter,
-    structs::{
-        season::SeasonInfo,
-        anime::Anime,
-    },
+    structs::{anime::Anime, season::SeasonInfo},
 };
 
 /// Configuration options for season queries

@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use crate::utils::Pagination;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Response<T> {

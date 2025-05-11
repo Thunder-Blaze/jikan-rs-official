@@ -1,18 +1,18 @@
 // anime.rs
 use crate::{
-    utils::{ExternalEntry, Images},
+    JikanClient, JikanError,
     enums::forum::ForumFilter,
-    response::Response, structs::{
-        anime::{
-            Anime, AnimeForum, AnimeStatistics, AnimeThemes, MoreInfo, StaffMember
-        },
-        watch::{Episode, Videos},
-        forum::NewsItem,
-        reviews::Review,
+    response::Response,
+    structs::{
+        anime::{Anime, AnimeForum, AnimeStatistics, AnimeThemes, MoreInfo, StaffMember},
         character::CharacterRole,
+        forum::NewsItem,
+        recommendation::RecommendationAlt,
+        reviews::Review,
         users::UserUpdate,
-        recommendation::RecommendationAlt
-    }, JikanClient, JikanError
+        watch::{Episode, Videos},
+    },
+    utils::{ExternalEntry, Images},
 };
 
 impl JikanClient {
@@ -24,7 +24,10 @@ impl JikanClient {
         self.get(&format!("/anime/{}/full", id)).await
     }
 
-    pub async fn get_anime_characters(&self, id: i32) -> Result<Response<Vec<CharacterRole>>, JikanError> {
+    pub async fn get_anime_characters(
+        &self,
+        id: i32,
+    ) -> Result<Response<Vec<CharacterRole>>, JikanError> {
         self.get(&format!("/anime/{}/characters", id)).await
     }
 
@@ -38,7 +41,7 @@ impl JikanClient {
         page: Option<u32>,
     ) -> Result<Response<Vec<Episode>>, JikanError> {
         let mut path = format!("/anime/{}/episodes", id);
-        
+
         if let Some(p) = page {
             path = format!("/anime/{}/episodes?page={}", id, p);
         };
@@ -66,10 +69,7 @@ impl JikanClient {
         self.get(&format!("/anime/{}/statistics", id)).await
     }
 
-    pub async fn get_anime_themes(
-        &self,
-        id: i32,
-    ) -> Result<Response<AnimeThemes>, JikanError> {
+    pub async fn get_anime_themes(&self, id: i32) -> Result<Response<AnimeThemes>, JikanError> {
         self.get(&format!("/anime/{}/themes", id)).await
     }
 
@@ -93,7 +93,7 @@ impl JikanClient {
         page: Option<u32>,
     ) -> Result<Response<Vec<NewsItem>>, JikanError> {
         let mut path = format!("/anime/{}/news", id);
-        
+
         if let Some(p) = page {
             path = format!("/anime/{}/news?page={}", id, p);
         }
@@ -107,11 +107,11 @@ impl JikanClient {
         filter: Option<ForumFilter>,
     ) -> Result<AnimeForum, JikanError> {
         let mut path = format!("/anime/{}/forum", id);
-        
+
         if let Some(p) = filter {
             path = format!("/anime/{}/forum?filter={}", id, p.as_str());
         }
-        
+
         self.get(&path).await
     }
 
@@ -129,10 +129,7 @@ impl JikanClient {
         self.get(&path).await
     }
 
-    pub async fn get_anime_pictures(
-        &self,
-        id: i32,
-    ) -> Result<Response<Vec<Images>>, JikanError> {
+    pub async fn get_anime_pictures(&self, id: i32) -> Result<Response<Vec<Images>>, JikanError> {
         self.get(&format!("/anime/{}/pictures", id)).await
     }
 

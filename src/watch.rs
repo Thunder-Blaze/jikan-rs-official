@@ -6,12 +6,16 @@ use crate::{
 
 impl JikanClient {
     /// Returns Recently Added Episodes
-    pub async fn get_watch_recent_episodes(&self) -> Result<Response<Vec<WatchEpisodeEntry>>, JikanError> {
+    pub async fn get_watch_recent_episodes(
+        &self,
+    ) -> Result<Response<Vec<WatchEpisodeEntry>>, JikanError> {
         self.get("/watch/episodes").await
     }
 
     /// Returns Popular Episodes
-    pub async fn get_watch_popular_episodes(&self) -> Result<Response<Vec<WatchEpisodeEntry>>, JikanError> {
+    pub async fn get_watch_popular_episodes(
+        &self,
+    ) -> Result<Response<Vec<WatchEpisodeEntry>>, JikanError> {
         self.get("/watch/episodes/popular").await
     }
 
@@ -25,12 +29,14 @@ impl JikanClient {
         if let Some(p) = page {
             path = format!("/watch/promos?page={}", p);
         }
-        
+
         self.get(&path).await
     }
 
     /// Returns Popular Promotional Videos
-    pub async fn get_watch_popular_promos(&self) -> Result<Response<Vec<WatchPromoEntry>>, JikanError> {
+    pub async fn get_watch_popular_promos(
+        &self,
+    ) -> Result<Response<Vec<WatchPromoEntry>>, JikanError> {
         self.get("/watch/promos/popular").await
     }
 }

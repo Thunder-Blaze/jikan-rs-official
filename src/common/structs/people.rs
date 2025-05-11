@@ -1,12 +1,8 @@
-use serde::{Deserialize, Serialize};
 use crate::{
+    structs::{anime::Anime, character::Character, manga::Manga},
     utils::Images,
-    structs::{
-        anime::Anime,
-        manga::Manga,
-        character::Character,
-    },
 };
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PersonAnimePosition {
@@ -26,7 +22,7 @@ pub struct PersonVoiceActingRole {
     pub anime: Anime,
     pub character: Character,
 }
-    
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Person {
     pub mal_id: u32,

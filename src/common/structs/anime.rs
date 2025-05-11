@@ -1,13 +1,9 @@
-use serde::{Deserialize, Serialize};
 use crate::{
-    utils::{Images, DateRange, Title, Score},
     response::MalCommonResponse,
-    structs::{
-        people::Person,
-        forum::ForumTopic,
-        watch::Trailer,
-    }
+    structs::{forum::ForumTopic, people::Person, watch::Trailer},
+    utils::{DateRange, Images, Score, Title},
 };
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Anime {

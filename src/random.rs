@@ -1,14 +1,8 @@
 //random.rs
 use crate::{
     JikanClient, JikanError,
-    structs::{
-        anime::Anime,
-        manga::Manga,
-        character::Character,
-        people::Person,
-        users::User,
-    },
     response::Response,
+    structs::{anime::Anime, character::Character, manga::Manga, people::Person, users::User},
 };
 
 impl JikanClient {

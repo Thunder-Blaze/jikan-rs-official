@@ -1,10 +1,7 @@
 // magazines.rs
 use crate::{
-    JikanClient, JikanError,
-    enums::magazines::MagazineOrder,
-    enums::common::Sort,
-    response::Response,
-    structs::magazines::Magazine,
+    JikanClient, JikanError, enums::common::Sort, enums::magazines::MagazineOrder,
+    response::Response, structs::magazines::Magazine,
 };
 
 impl JikanClient {
@@ -34,7 +31,6 @@ impl JikanClient {
         if let Some(ob) = order_by {
             params.push(format!("order_by={}", ob.as_str()));
         }
-
 
         if let Some(s) = sort {
             params.push(format!("sort={}", s.as_str()));

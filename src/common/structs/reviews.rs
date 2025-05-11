@@ -1,7 +1,4 @@
-use crate::{
-    utils::Images,
-    structs::users::User,
-};
+use crate::{structs::users::User, utils::Images};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

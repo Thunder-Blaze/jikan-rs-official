@@ -43,7 +43,6 @@ pub struct DateRange {
     pub prop: DateRangeProp,
 }
 
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Title {
     pub r#type: String,
@@ -55,7 +54,6 @@ pub struct ExternalEntry {
     pub name: String,
     pub url: String,
 }
-
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Score {

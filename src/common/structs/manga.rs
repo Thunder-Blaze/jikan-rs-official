@@ -1,8 +1,8 @@
-use serde::{Deserialize, Serialize};
 use crate::{
-    utils::{Images, DateRange, Title, Score},
     response::MalCommonResponse,
+    utils::{DateRange, Images, Score, Title},
 };
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Manga {
@@ -20,7 +20,6 @@ pub struct Manga {
     pub synopsis: Option<String>,
     pub published: Option<DateRange>,
 }
-
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MangaExtended {
@@ -53,7 +52,6 @@ pub struct MangaExtended {
     pub themes: Vec<MalCommonResponse>,
     pub demographics: Vec<MalCommonResponse>,
 }
-
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MangaRelation {

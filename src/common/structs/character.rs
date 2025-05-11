@@ -1,10 +1,5 @@
+use crate::{structs::anime::Anime, structs::manga::Manga, structs::people::Person, utils::Images};
 use serde::{Deserialize, Serialize};
-use crate::{
-    utils::Images,
-    structs::anime::Anime,
-    structs::manga::Manga,
-    structs::people::Person,
-};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Character {
@@ -50,7 +45,6 @@ pub struct CharacterExtended {
     pub manga: Option<Vec<MangaEntry>>,
     pub voices: Option<Vec<PersonEntry>>,
 }
-
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CharacterRole {

@@ -1,18 +1,10 @@
 // people.rs
 use crate::{
     JikanClient, JikanError,
-    structs::people::{
-        Person,
-        PersonAnimePosition,
-        PersonMangaPosition,
-        PersonVoiceActingRole,
-    },
-    enums::{
-        common::Sort,
-        people::PeopleOrder,
-    },
-    utils::Images,
+    enums::{common::Sort, people::PeopleOrder},
     response::Response,
+    structs::people::{Person, PersonAnimePosition, PersonMangaPosition, PersonVoiceActingRole},
+    utils::Images,
 };
 
 impl JikanClient {
@@ -20,10 +12,7 @@ impl JikanClient {
         self.get(&format!("/people/{}", id)).await
     }
 
-    pub async fn get_person_by_id_full(
-        &self,
-        id: i32,
-    ) -> Result<Response<Person>, JikanError> {
+    pub async fn get_person_by_id_full(&self, id: i32) -> Result<Response<Person>, JikanError> {
         self.get(&format!("/people/{}/full", id)).await
     }
 
@@ -48,10 +37,7 @@ impl JikanClient {
         self.get(&format!("/people/{}/voices", id)).await
     }
 
-    pub async fn get_person_pictures(
-        &self,
-        id: i32,
-    ) -> Result<Response<Vec<Images>>, JikanError> {
+    pub async fn get_person_pictures(&self, id: i32) -> Result<Response<Vec<Images>>, JikanError> {
         self.get(&format!("/people/{}/pictures", id)).await
     }
 

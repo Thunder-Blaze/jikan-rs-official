@@ -1,8 +1,4 @@
-use crate::{
-    JikanClient, JikanError,
-    response::Response,
-    structs::reviews::Review,
-};
+use crate::{JikanClient, JikanError, response::Response, structs::reviews::Review};
 
 impl JikanClient {
     pub async fn get_recent_anime_reviews(

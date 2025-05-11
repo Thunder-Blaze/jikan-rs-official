@@ -1,10 +1,6 @@
 // schedule.rs
 use crate::{JikanClient, JikanError};
-use crate::{
-    enums::schedule::ScheduleFilter,
-    response::Response,
-    structs::anime::Anime,
-};
+use crate::{enums::schedule::ScheduleFilter, response::Response, structs::anime::Anime};
 
 impl JikanClient {
     pub async fn get_schedules(

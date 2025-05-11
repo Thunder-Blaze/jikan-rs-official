@@ -1,9 +1,12 @@
 use crate::common::wait_between_tests;
-use jikan_rs::{JikanClient, common::enums::{
-    anime::{AnimeType, AnimeFilter, AnimeRating},
-    manga::{MangaType, MangaFilter},
-    reviews::ReviewType,
-}};
+use jikan_rs::{
+    JikanClient,
+    common::enums::{
+        anime::{AnimeFilter, AnimeRating, AnimeType},
+        manga::{MangaFilter, MangaType},
+        reviews::ReviewType,
+    },
+};
 use serial_test::serial;
 mod common;
 
@@ -12,14 +15,7 @@ mod common;
 async fn get_top_anime() {
     let client = JikanClient::new();
     let result = client
-        .get_top_anime(
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-        )
+        .get_top_anime(None, None, None, None, None, None)
         .await;
     assert!(result.is_ok());
     wait_between_tests().await;
@@ -41,14 +37,7 @@ async fn get_top_anime_with_type() {
 async fn get_top_anime_with_filter() {
     let client = JikanClient::new();
     let result = client
-        .get_top_anime(
-            None,
-            Some(AnimeFilter::Airing),
-            None,
-            None,
-            None,
-            None,
-        )
+        .get_top_anime(None, Some(AnimeFilter::Airing), None, None, None, None)
         .await;
     assert!(result.is_ok());
     wait_between_tests().await;
@@ -59,14 +48,7 @@ async fn get_top_anime_with_filter() {
 async fn get_top_anime_with_rating() {
     let client = JikanClient::new();
     let result = client
-        .get_top_anime(
-            None,
-            None,
-            Some(AnimeRating::PG13),
-            None,
-            None,
-            None,
-        )
+        .get_top_anime(None, None, Some(AnimeRating::PG13), None, None, None)
         .await;
     assert!(result.is_ok());
     wait_between_tests().await;
@@ -77,14 +59,7 @@ async fn get_top_anime_with_rating() {
 async fn get_top_anime_with_sfw() {
     let client = JikanClient::new();
     let result = client
-        .get_top_anime(
-            None,
-            None,
-            None,
-            Some(true),
-            None,
-            None,
-        )
+        .get_top_anime(None, None, None, Some(true), None, None)
         .await;
     assert!(result.is_ok());
     wait_between_tests().await;
@@ -95,14 +70,7 @@ async fn get_top_anime_with_sfw() {
 async fn get_top_anime_with_page() {
     let client = JikanClient::new();
     let result = client
-        .get_top_anime(
-            None,
-            None,
-            None,
-            None,
-            Some(1),
-            None,
-        )
+        .get_top_anime(None, None, None, None, Some(1), None)
         .await;
     assert!(result.is_ok());
     wait_between_tests().await;
@@ -113,14 +81,7 @@ async fn get_top_anime_with_page() {
 async fn get_top_anime_with_limit() {
     let client = JikanClient::new();
     let result = client
-        .get_top_anime(
-            None,
-            None,
-            None,
-            None,
-            None,
-            Some(10),
-        )
+        .get_top_anime(None, None, None, None, None, Some(10))
         .await;
     assert!(result.is_ok());
     wait_between_tests().await;
@@ -130,9 +91,7 @@ async fn get_top_anime_with_limit() {
 #[serial]
 async fn get_top_manga() {
     let client = JikanClient::new();
-    let result = client
-        .get_top_manga(None, None, None, None)
-        .await;
+    let result = client.get_top_manga(None, None, None, None).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -163,9 +122,7 @@ async fn get_top_manga_with_filter() {
 #[serial]
 async fn get_top_manga_with_page() {
     let client = JikanClient::new();
-    let result = client
-        .get_top_manga(None, None, Some(1), None)
-        .await;
+    let result = client.get_top_manga(None, None, Some(1), None).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -174,9 +131,7 @@ async fn get_top_manga_with_page() {
 #[serial]
 async fn get_top_manga_with_limit() {
     let client = JikanClient::new();
-    let result = client
-        .get_top_manga(None, None, None, Some(10))
-        .await;
+    let result = client.get_top_manga(None, None, None, Some(10)).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -212,9 +167,7 @@ async fn get_top_people_with_limit() {
 #[serial]
 async fn get_top_reviews() {
     let client = JikanClient::new();
-    let result = client
-        .get_top_reviews(None, None, None, None)
-        .await;
+    let result = client.get_top_reviews(None, None, None, None).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -234,9 +187,7 @@ async fn get_top_reviews_with_type() {
 #[serial]
 async fn get_top_reviews_with_preliminary() {
     let client = JikanClient::new();
-    let result = client
-        .get_top_reviews(None, Some(true), None, None)
-        .await;
+    let result = client.get_top_reviews(None, Some(true), None, None).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -245,9 +196,7 @@ async fn get_top_reviews_with_preliminary() {
 #[serial]
 async fn get_top_reviews_with_spoilers() {
     let client = JikanClient::new();
-    let result = client
-        .get_top_reviews(None, None, Some(true), None)
-        .await;
+    let result = client.get_top_reviews(None, None, Some(true), None).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -256,9 +205,7 @@ async fn get_top_reviews_with_spoilers() {
 #[serial]
 async fn get_top_reviews_with_page() {
     let client = JikanClient::new();
-    let result = client
-        .get_top_reviews(None, None, None, Some(2))
-        .await;
+    let result = client.get_top_reviews(None, None, None, Some(2)).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }

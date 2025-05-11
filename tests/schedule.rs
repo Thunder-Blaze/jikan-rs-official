@@ -1,8 +1,5 @@
 use crate::common::wait_between_tests;
-use jikan_rs::{
-    JikanClient,
-    common::enums::schedule::ScheduleFilter,
-};
+use jikan_rs::{JikanClient, common::enums::schedule::ScheduleFilter};
 use serial_test::serial;
 mod common;
 

@@ -1,12 +1,16 @@
 use crate::{
-    enums::forum::ForumFilter, response::Response, structs::{
-        character::CharacterRole, 
-        forum::{ForumTopic, NewsItem}, 
-        manga::{Manga, MangaRelation, MangaStatistics, MoreInfo}, 
-        reviews::Review, 
+    JikanClient, JikanError,
+    enums::forum::ForumFilter,
+    response::Response,
+    structs::{
+        character::CharacterRole,
+        forum::{ForumTopic, NewsItem},
+        manga::{Manga, MangaRelation, MangaStatistics, MoreInfo},
+        recommendation::RecommendationAlt,
+        reviews::Review,
         users::UserUpdate,
-        recommendation::RecommendationAlt
-    }, utils::{ExternalEntry, Images}, JikanClient, JikanError
+    },
+    utils::{ExternalEntry, Images},
 };
 
 impl JikanClient {
@@ -18,7 +22,10 @@ impl JikanClient {
         self.get(&format!("/manga/{}/full", id)).await
     }
 
-    pub async fn get_manga_characters(&self, id: i32) -> Result<Response<Vec<CharacterRole>>, JikanError> {
+    pub async fn get_manga_characters(
+        &self,
+        id: i32,
+    ) -> Result<Response<Vec<CharacterRole>>, JikanError> {
         self.get(&format!("/manga/{}/characters", id)).await
     }
 
@@ -28,7 +35,7 @@ impl JikanClient {
         page: Option<u32>,
     ) -> Result<Response<Vec<NewsItem>>, JikanError> {
         let mut path = format!("/manga/{}/news", id);
-        
+
         if let Some(p) = page {
             path = format!("/manga/{}/news?page={}", id, p);
         }
@@ -50,10 +57,7 @@ impl JikanClient {
         self.get(&path).await
     }
 
-    pub async fn get_manga_pictures(
-        &self,
-        id: i32,
-    ) -> Result<Response<Vec<Images>>, JikanError> {
+    pub async fn get_manga_pictures(&self, id: i32) -> Result<Response<Vec<Images>>, JikanError> {
         self.get(&format!("/manga/{}/pictures", id)).await
     }
 
@@ -81,7 +85,7 @@ impl JikanClient {
         page: Option<u32>,
     ) -> Result<Response<Vec<UserUpdate>>, JikanError> {
         let mut path = format!("/manga/{}/userupdates", id);
-        
+
         if let Some(p) = page {
             path = format!("/manga/{}/userupdates?page={}", id, p);
         }
@@ -101,11 +105,11 @@ impl JikanClient {
         if let Some(p) = page {
             params.push(format!("page={}", p));
         }
-        
+
         if let Some(pr) = preliminary {
             params.push(format!("preliminary={}", pr));
         }
-        
+
         if let Some(sp) = spoilers {
             params.push(format!("spoilers={}", sp));
         }

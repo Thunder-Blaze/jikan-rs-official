@@ -17,7 +17,12 @@ async fn test_get_watch_recent_episodes() {
                 "Recent episodes response should not be empty"
             );
             assert!(
-                response.pagination.as_ref().map(|p| p.last_visible_page).unwrap_or(0) >= 1,
+                response
+                    .pagination
+                    .as_ref()
+                    .map(|p| p.last_visible_page)
+                    .unwrap_or(0)
+                    >= 1,
                 "Should have a valid page number"
             );
         }
@@ -40,7 +45,12 @@ async fn test_get_watch_popular_episodes() {
                 "Popular episodes response should not be empty"
             );
             assert!(
-                response.pagination.as_ref().map(|p| p.last_visible_page).unwrap_or(0) >= 1,
+                response
+                    .pagination
+                    .as_ref()
+                    .map(|p| p.last_visible_page)
+                    .unwrap_or(0)
+                    >= 1,
                 "Should have a valid page number"
             );
         }
@@ -63,7 +73,12 @@ async fn test_get_watch_recent_promos_no_page() {
                 "Recent promos response should not be empty"
             );
             assert!(
-                response.pagination.as_ref().map(|p| p.last_visible_page).unwrap_or(0) >= 1,
+                response
+                    .pagination
+                    .as_ref()
+                    .map(|p| p.last_visible_page)
+                    .unwrap_or(0)
+                    >= 1,
                 "Should have a valid page number"
             );
         }
@@ -86,7 +101,12 @@ async fn test_get_watch_recent_promos_with_page() {
                 "Recent promos response should not be empty"
             );
             assert!(
-                response.pagination.as_ref().map(|p| p.last_visible_page).unwrap_or(0) >= 1,
+                response
+                    .pagination
+                    .as_ref()
+                    .map(|p| p.last_visible_page)
+                    .unwrap_or(0)
+                    >= 1,
                 "Should have a valid page number"
             );
         }
@@ -109,7 +129,12 @@ async fn test_get_watch_popular_promos() {
                 "Popular promos response should not be empty"
             );
             assert!(
-                response.pagination.as_ref().map(|p| p.last_visible_page).unwrap_or(0) >= 1,
+                response
+                    .pagination
+                    .as_ref()
+                    .map(|p| p.last_visible_page)
+                    .unwrap_or(0)
+                    >= 1,
                 "Should have a valid page number"
             );
         }

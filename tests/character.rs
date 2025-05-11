@@ -1,10 +1,8 @@
 use crate::common::wait_between_tests;
 use jikan_rs::{
-    common::enums::{
-        common::Sort,
-        character::CharacterOrder, 
-    },
-    JikanClient};
+    JikanClient,
+    common::enums::{character::CharacterOrder, common::Sort},
+};
 use serial_test::serial;
 mod common;
 

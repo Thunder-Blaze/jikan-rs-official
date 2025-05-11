@@ -82,9 +82,7 @@ async fn get_user_reviews() {
 #[serial]
 async fn get_user_history() {
     let client = JikanClient::new();
-    let result = client
-        .get_user_history("Kisaragi_Toka", None)
-        .await;
+    let result = client.get_user_history("Kisaragi_Toka", None).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }

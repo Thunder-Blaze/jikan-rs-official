@@ -1,9 +1,5 @@
-use crate::{
-    utils::Images,
-    response::MalCommonResponse
-};
+use crate::{response::MalCommonResponse, utils::Images};
 use serde::{Deserialize, Serialize};
-
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Club {

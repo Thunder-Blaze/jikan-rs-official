@@ -1,12 +1,12 @@
 use crate::{
-    JikanClient, JikanError,
-    enums::genre::GenreFilter,
-    response::Response,
-    structs::genre::Genre,
+    JikanClient, JikanError, enums::genre::GenreFilter, response::Response, structs::genre::Genre,
 };
 
 impl JikanClient {
-    pub async fn get_anime_genres(&self, filter: Option<GenreFilter>) -> Result<Response<Vec<Genre>>, JikanError> {
+    pub async fn get_anime_genres(
+        &self,
+        filter: Option<GenreFilter>,
+    ) -> Result<Response<Vec<Genre>>, JikanError> {
         let mut query = String::new();
 
         if let Some(q) = filter {
@@ -16,7 +16,10 @@ impl JikanClient {
         self.get(&format!("/genres/anime{}", query)).await
     }
 
-    pub async fn get_manga_genres(&self, filter: Option<GenreFilter>) -> Result<Response<Vec<Genre>>, JikanError> {
+    pub async fn get_manga_genres(
+        &self,
+        filter: Option<GenreFilter>,
+    ) -> Result<Response<Vec<Genre>>, JikanError> {
         let mut query = String::new();
 
         if let Some(q) = filter {

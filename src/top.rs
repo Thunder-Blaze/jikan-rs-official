@@ -1,15 +1,15 @@
 use crate::{
+    JikanClient, JikanError,
     enums::{
         anime::{AnimeFilter, AnimeRating, AnimeType},
         manga::{MangaFilter, MangaType},
         reviews::ReviewType,
-    }, response::Response, structs::{
-        anime::AnimeExtended,
+    },
+    response::Response,
+    structs::{
+        anime::AnimeExtended, character::Character, manga::MangaExtended, people::Person,
         reviews::Review,
-        manga::MangaExtended,
-        people::Person,
-        character::Character,
-    }, JikanClient, JikanError
+    },
 };
 
 impl JikanClient {
@@ -139,7 +139,7 @@ impl JikanClient {
         page: Option<u32>,
     ) -> Result<Response<Vec<Review>>, JikanError> {
         let mut params = Vec::new();
-        
+
         if let Some(t_str) = r#type {
             params.push(format!("type={}", t_str.as_str()));
         };

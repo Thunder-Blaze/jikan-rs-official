@@ -1,27 +1,14 @@
 // character.rs
 use crate::{
-    JikanClient, 
-    JikanError,
-    structs::character::{
-        Character,
-        CharacterExtended,
-        AnimeEntry,
-        MangaEntry,
-        PersonEntry,
-    },
-    enums::{
-        common::Sort,
-        character::CharacterOrder,
-    }, 
+    JikanClient, JikanError,
+    enums::{character::CharacterOrder, common::Sort},
     response::Response,
-    utils::Images, 
+    structs::character::{AnimeEntry, Character, CharacterExtended, MangaEntry, PersonEntry},
+    utils::Images,
 };
 
 impl JikanClient {
-    pub async fn get_character_by_id(
-        &self,
-        id: i32,
-    ) -> Result<Response<Character>, JikanError> {
+    pub async fn get_character_by_id(&self, id: i32) -> Result<Response<Character>, JikanError> {
         self.get(&format!("/characters/{}", id)).await
     }
 

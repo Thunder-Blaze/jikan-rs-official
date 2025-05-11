@@ -1,5 +1,5 @@
+use crate::utils::{ExternalEntry, Images, Title};
 use serde::{Deserialize, Serialize};
-use crate::utils::{Images, Title, ExternalEntry};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Producer {

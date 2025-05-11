@@ -29,7 +29,7 @@ impl AnimeType {
 pub enum AnimeStatus {
     Airing,
     Complete,
-    Upcoming
+    Upcoming,
 }
 
 impl AnimeStatus {
@@ -49,7 +49,7 @@ pub enum AnimeRating {
     PG13,
     R17,
     R,
-    Rx
+    Rx,
 }
 
 impl AnimeRating {
@@ -78,7 +78,7 @@ pub enum AnimeOrder {
     Rank,
     Popularity,
     Members,
-    Favourites
+    Favourites,
 }
 
 impl AnimeOrder {
@@ -105,7 +105,7 @@ pub enum AnimeFilter {
     Airing,
     Upcoming,
     ByPopularity,
-    Favorite
+    Favorite,
 }
 
 impl AnimeFilter {

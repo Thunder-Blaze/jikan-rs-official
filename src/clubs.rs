@@ -1,9 +1,7 @@
 use crate::{
     JikanClient, JikanError,
     response::Response,
-    structs::clubs::{
-        Club, ClubMember, ClubStaff, ClubRelations
-    }
+    structs::clubs::{Club, ClubMember, ClubRelations, ClubStaff},
 };
 
 // New struct for club search parameters
@@ -119,17 +117,11 @@ impl JikanClient {
         self.get(&format!("/clubs/{}/members{}", id, query)).await
     }
 
-    pub async fn get_club_staff(
-        &self,
-        id: i32,
-    ) -> Result<Response<Vec<ClubStaff>>, JikanError> {
+    pub async fn get_club_staff(&self, id: i32) -> Result<Response<Vec<ClubStaff>>, JikanError> {
         self.get(&format!("/clubs/{}/staff", id)).await
     }
 
-    pub async fn get_club_relations(
-        &self,
-        id: i32,
-    ) -> Result<Response<ClubRelations>, JikanError> {
+    pub async fn get_club_relations(&self, id: i32) -> Result<Response<ClubRelations>, JikanError> {
         self.get(&format!("/clubs/{}/relations", id)).await
     }
 
