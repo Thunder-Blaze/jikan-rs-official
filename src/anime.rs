@@ -59,18 +59,23 @@ impl JikanClient {
                 let formatted_q = format_search_query(q);
                 query_params.push(format!("q={}", formatted_q));
             }
+
             if let Some(u) = p.unapproved {
                 if u { query_params.push("unapproved".to_string()); }
             }
+
             if let Some(p) = p.page {
                 query_params.push(format!("page={}", p));
             }
+
             if let Some(l) = p.limit {
                 query_params.push(format!("limit={}", l));
             }
+
             if let Some(t) = p.type_ {
                 query_params.push(format!("type={}", t.as_str()));
             }
+
             #[allow(non_snake_case)]
             match p.score {
                 //* this is due the fact that the query may not have 'score' alongside 'min_score' or 'max_score'
@@ -79,41 +84,58 @@ impl JikanClient {
                     if let Some(min) = p.min_score {
                         query_params.push(format!("min_score={}", min));
                     }
+
                     if let Some(max) = p.max_score {
                         query_params.push(format!("max_score={}", max));
                     }
                 }
             }
+
             if let Some(st) = p.status {
                 query_params.push(format!("status={}", st.as_str()));
             }
+
             if let Some(r) = p.rating {
                 query_params.push(format!("rating={}", r.as_str()));
             }
+
             if let Some(s) = p.sfw {
                 query_params.push(format!("sfw={}", s));
             }
+
             if let Some(g) = p.genres {
                 query_params.push(format!("genres={}", g));
             }
+
             if let Some(ge) = p.genres_exclude {
                 query_params.push(format!("genres_exclude={}", ge));
             }
+
             if let Some(o) = p.order_by {
                 query_params.push(format!("order_by={}", o.as_str()));
             }
+
             if let Some(s) = p.sort {
                 query_params.push(format!("sort={}", s.as_str()));
             }
-            if let Some(l) = p.letter {
-                query_params.push(format!("letter={}", l));
+
+            if let Some(lett) = p.letter {
+                if lett.len() != 1 {
+                    return Err(JikanError::BadRequest(
+                        "Letter must be a single character".to_string(),
+                    ));
+                }
+                query_params.push(format!("letter={}", lett));
             }
+
             if let Some(p) = p.producers {
                 query_params.push(format!("producers={}", p));
             }
+
             if let Some(s) = p.start_date {
                 query_params.push(format!("start_date={}", s));
             }
+
             if let Some(e) = p.end_date {
                 query_params.push(format!("end_date={}", e));
             }
