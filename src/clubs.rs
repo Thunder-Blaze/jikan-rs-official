@@ -1,45 +1,10 @@
 use crate::{
     JikanClient, JikanError,
-    utils::{Images, Pagination},
     response::Response,
-    structs::clubs::Club
+    structs::clubs::{
+        Club, ClubMember, ClubStaff, ClubRelations
+    }
 };
-use serde::{Deserialize, Serialize};
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ClubVectorResponse<T> {
-    pub data: Vec<T>,
-    pub pagination: Option<Pagination>,
-}
-
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ClubMember {
-    pub username: String,
-    pub url: String,
-    pub images: Images,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ClubStaff {
-    pub url: String,
-    pub username: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ClubRelationContent {
-    pub mal_id: i32,
-    pub r#type: Option<String>,
-    pub name: String,
-    pub url: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ClubRelations {
-    pub anime: Vec<ClubRelationContent>,
-    pub manga: Vec<ClubRelationContent>,
-    pub characters: Vec<ClubRelationContent>,
-}
 
 // New struct for club search parameters
 #[derive(Debug, Clone, Default)]
@@ -141,7 +106,7 @@ impl JikanClient {
         &self,
         id: i32,
         page: Option<u32>,
-    ) -> Result<ClubVectorResponse<ClubMember>, JikanError> {
+    ) -> Result<Response<Vec<ClubMember>>, JikanError> {
         let mut params = Vec::new();
         if let Some(p) = page {
             params.push(format!("page={}", p));
@@ -157,7 +122,7 @@ impl JikanClient {
     pub async fn get_club_staff(
         &self,
         id: i32,
-    ) -> Result<ClubVectorResponse<ClubStaff>, JikanError> {
+    ) -> Result<Response<Vec<ClubStaff>>, JikanError> {
         self.get(&format!("/clubs/{}/staff", id)).await
     }
 
@@ -172,7 +137,7 @@ impl JikanClient {
     pub async fn get_club_search(
         &self,
         params: ClubSearchParams,
-    ) -> Result<ClubVectorResponse<Club>, JikanError> {
+    ) -> Result<Response<Vec<Club>>, JikanError> {
         let query = params.to_query_params();
         self.get(&format!("/clubs{}", query)).await
     }

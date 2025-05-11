@@ -1,6 +1,6 @@
 //random.rs
-use crate::{JikanClient, JikanError};
 use crate::{
+    JikanClient, JikanError,
     structs::{
         anime::Anime,
         manga::Manga,
