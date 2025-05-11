@@ -106,3 +106,9 @@ pub struct AnimeStatistics {
     pub total: i32,
     pub scores: Vec<Score>,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AnimeRelation {
+    pub relation: String,
+    pub entry: Vec<MalCommonResponse>,
+}

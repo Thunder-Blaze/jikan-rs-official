@@ -173,3 +173,13 @@ async fn get_nonexistent_anime() {
     assert!(matches!(result, Err(JikanError::NotFound)));
     wait_between_tests().await;
 }
+
+#[tokio::test]
+#[serial]
+async fn get_anime_relations() {
+    let client = JikanClient::new();
+    let result = client.get_anime_relations(51818).await;
+    println!("{:?}", result);
+    assert!(result.is_ok());
+    wait_between_tests().await;
+}

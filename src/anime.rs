@@ -9,7 +9,7 @@ use crate::{
     format_search_query,
     response::Response,
     structs::{
-        anime::{Anime, AnimeForum, AnimeStatistics, AnimeThemes, MoreInfo, StaffMember},
+        anime::{Anime, AnimeForum, AnimeStatistics, AnimeThemes, MoreInfo, StaffMember, AnimeRelation},
         character::CharacterRole,
         forum::NewsItem,
         recommendation::RecommendationAlt,
@@ -311,5 +311,12 @@ impl JikanClient {
         };
 
         self.get(&format!("/anime/{}/reviews{}", id, query)).await
+    }
+
+    pub async fn get_anime_relations(
+        &self,
+        id: i32,
+    ) -> Result<Response<Vec<AnimeRelation>>, JikanError> {
+        self.get(&format!("/anime/{}/relations", id)).await
     }
 }
