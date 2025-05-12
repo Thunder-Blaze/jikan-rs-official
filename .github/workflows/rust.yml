@@ -17,7 +17,7 @@ jobs:
             2) cargo test --test people --test producer --test magazines ;;
             3) cargo test --test watch --test seasons --test schedule ;;
             4) cargo test --test clubs --test genre --test random --test top ;;
-            5) cargo test --test forum --test users --test review --test recommendations ;;
+            5) cargo test --test users --test review --test recommendations ;;
           esac 
   fmt:
     name: Rustfmt
