@@ -44,7 +44,6 @@ async fn get_manga_news() {
 async fn get_manga_forum() {
     let client = JikanClient::new();
     let result = client.get_manga_forum(1, None).await;
-    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -71,7 +70,7 @@ async fn get_manga_statistics() {
 #[serial]
 async fn get_manga_moreinfo() {
     let client = JikanClient::new();
-    let result = client.get_manga_moreinfo(1).await;
+    let result = client.get_manga_moreinfo(2).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }

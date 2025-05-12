@@ -29,7 +29,6 @@ pub async fn get_character_full_by_id() {
 pub async fn get_character_anime() {
     let client = JikanClient::new();
     let result = client.get_character_anime(1).await;
-    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -66,7 +65,6 @@ pub async fn get_characters() {
 pub async fn get_character_pictures() {
     let client = JikanClient::new();
     let result = client.get_character_pictures(1).await;
-    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -85,7 +83,6 @@ pub async fn get_character_search() {
             None,
         )
         .await;
-    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }

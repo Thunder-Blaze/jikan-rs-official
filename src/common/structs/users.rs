@@ -1,7 +1,5 @@
 use crate::{
-    response::MalCommonResponse,
-    structs::{anime::Anime, character::Character, manga::Manga, people::Person},
-    utils::Images,
+    common::utils::ExternalEntry, response::MalCommonResponse, structs::{anime::Anime, character::Character, manga::Manga, people::Person}, utils::Images
 };
 use serde::{Deserialize, Serialize};
 
@@ -112,4 +110,19 @@ pub struct UserUpdates {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UserAbout {
     pub about: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UserExtended {
+    mal_id: u32,
+    username: String,
+    url: String,
+    images: Option<Images>,
+    last_online: String,
+    gender: Option<String>,
+    birthday: Option<String>,
+    location: Option<String>,
+    joined: String,
+    statistics: Option<UserStats>,
+    external: Option<Vec<ExternalEntry>>,
 }

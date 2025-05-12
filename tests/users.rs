@@ -8,7 +8,7 @@ mod common;
 #[serial]
 async fn get_user_full() {
     let client = JikanClient::new();
-    let result = client.get_user_full_profile("InSaiyan__").await;
+    let result = client.get_user_full_profile("Thunder-Blaze").await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -54,7 +54,7 @@ async fn get_user_by_id() {
 #[serial]
 async fn get_user_stats() {
     let client = JikanClient::new();
-    let result = client.get_user_statistics("InSaiyan__").await;
+    let result = client.get_user_statistics("TheLlama").await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -72,8 +72,7 @@ async fn get_user_friends() {
 #[serial]
 async fn get_user_reviews() {
     let client = JikanClient::new();
-    let result = client.get_user_reviews("eren", Some(1)).await;
-    println!("{:?}", result);
+    let result = client.get_user_reviews("TheLlama", Some(1)).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -128,7 +127,7 @@ async fn get_user_updates() {
 async fn get_user_recommendations() {
     let client = JikanClient::new();
     let result = client
-        .get_user_recommendations("Kisaragi_Toka", Some(1))
+        .get_user_recommendations("TheLlama", Some(1))
         .await;
     assert!(result.is_ok());
     wait_between_tests().await;

@@ -3,7 +3,7 @@ use jikan_rs::{
     JikanClient, JikanError,
     clubs::ClubSearchParams,
     common::enums::{
-        clubs::{ClubCategory, ClubOrder, ClubType},
+        clubs::{ClubOrder, ClubType},
         common::Sort,
     },
 };
@@ -56,7 +56,6 @@ async fn get_club_search() {
         limit: Some(10),
         ..Default::default()
     };
-
     let result = client.get_club_search(Some(params)).await;
     assert!(result.is_ok());
     wait_between_tests().await;
@@ -69,7 +68,6 @@ async fn get_club_search_with_category() {
     let params = ClubSearchParams {
         page: Some(1),
         limit: Some(10),
-        category: Some(ClubCategory::Anime),
         ..Default::default()
     };
     let result = client.get_club_search(Some(params)).await;
@@ -104,7 +102,6 @@ async fn get_club_search_with_letter() {
         letter: Some("A".to_string()),
         ..Default::default()
     };
-
     let result = client.get_club_search(Some(params)).await;
     assert!(result.is_ok());
     wait_between_tests().await;

@@ -93,7 +93,6 @@ async fn test_get_watch_recent_promos_no_page() {
 async fn test_get_watch_recent_promos_with_page() {
     let client = JikanClient::new();
     let result = client.get_watch_recent_promos(Some(1)).await;
-    // println!("{:#?}", result);
     match result {
         Ok(response) => {
             assert!(

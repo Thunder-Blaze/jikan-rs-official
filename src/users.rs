@@ -1,15 +1,11 @@
 //user.rs
 use crate::{
-    JikanClient, JikanError,
-    enums::users::{Gender, UserHistoryType},
-    response::Response,
-    structs::{
+    enums::users::{Gender, UserHistoryType}, response::Response, structs::{
         clubs::Club,
         recommendation::Recommendation,
         reviews::Review,
-        users::{Friend, User, UserAbout, UserFavorite, UserHistory, UserStats, UserUpdates},
-    },
-    utils::ExternalEntry,
+        users::{Friend, User, UserAbout, UserFavorite, UserHistory, UserStats, UserUpdates, UserExtended},
+    }, utils::ExternalEntry, JikanClient, JikanError
 };
 
 pub struct GetUsersParams {
@@ -26,7 +22,7 @@ impl JikanClient {
     pub async fn get_user_full_profile(
         &self,
         username: &str,
-    ) -> Result<Response<User>, JikanError> {
+    ) -> Result<Response<UserExtended>, JikanError> {
         self.get(&format!("/users/{}/full", username)).await
     }
 
