@@ -1,5 +1,8 @@
 use crate::{
-    common::utils::ExternalEntry, response::MalCommonResponse, structs::{anime::Anime, character::Character, manga::Manga, people::Person}, utils::Images
+    common::utils::ExternalEntry,
+    response::MalCommonResponse,
+    structs::{anime::Anime, character::Character, manga::Manga, people::Person},
+    utils::Images,
 };
 use serde::{Deserialize, Serialize};
 

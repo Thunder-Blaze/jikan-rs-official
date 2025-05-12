@@ -126,9 +126,7 @@ async fn get_user_updates() {
 #[serial]
 async fn get_user_recommendations() {
     let client = JikanClient::new();
-    let result = client
-        .get_user_recommendations("TheLlama", Some(1))
-        .await;
+    let result = client.get_user_recommendations("TheLlama", Some(1)).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }

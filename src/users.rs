@@ -1,11 +1,18 @@
 //user.rs
 use crate::{
-    enums::users::{Gender, UserHistoryType}, response::Response, structs::{
+    JikanClient, JikanError,
+    enums::users::{Gender, UserHistoryType},
+    response::Response,
+    structs::{
         clubs::Club,
         recommendation::Recommendation,
         reviews::Review,
-        users::{Friend, User, UserAbout, UserFavorite, UserHistory, UserStats, UserUpdates, UserExtended},
-    }, utils::ExternalEntry, JikanClient, JikanError
+        users::{
+            Friend, User, UserAbout, UserExtended, UserFavorite, UserHistory, UserStats,
+            UserUpdates,
+        },
+    },
+    utils::ExternalEntry,
 };
 
 pub struct GetUsersParams {

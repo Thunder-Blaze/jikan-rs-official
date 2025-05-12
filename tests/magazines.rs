@@ -66,7 +66,14 @@ async fn get_magazines_with_order() {
 async fn get_magazines_with_sort() {
     let client = JikanClient::new();
     let result = client
-        .get_magazines(None, None, None, Some(MagazineOrder::MalId), Some(Sort::Desc), None)
+        .get_magazines(
+            None,
+            None,
+            None,
+            Some(MagazineOrder::MalId),
+            Some(Sort::Desc),
+            None,
+        )
         .await;
     assert!(result.is_ok());
     wait_between_tests().await;

@@ -79,7 +79,6 @@ pub async fn get_recent_anime_reviews_with_all_params() {
 #[tokio::test]
 #[serial]
 pub async fn get_recent_manga_reviews_with_all_params() {
-
     let client = JikanClient::new();
     let result = client
         .get_recent_manga_reviews(Some(1), Some(true), Some(true))
