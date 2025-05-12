@@ -1,6 +1,7 @@
 // anime.rs
 use crate::{
     JikanClient, JikanError,
+    common::structs::anime::AnimeExtended,
     enums::{
         anime::{AnimeOrder, AnimeRating, AnimeStatus, AnimeType},
         common::Sort,
@@ -149,7 +150,7 @@ impl JikanClient {
         self.get(&format!("/anime{}", query)).await
     }
 
-    pub async fn get_anime_full(&self, id: i32) -> Result<Response<Anime>, JikanError> {
+    pub async fn get_anime_full(&self, id: i32) -> Result<Response<AnimeExtended>, JikanError> {
         self.get(&format!("/anime/{}/full", id)).await
     }
 
