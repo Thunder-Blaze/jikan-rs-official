@@ -1,7 +1,9 @@
 use crate::common::wait_between_tests;
 use jikan_rs::{
     JikanClient, JikanError,
-    anime::{AnimeType, OrderBy, Rating, SearchParams, Sort, Status},
+    anime::SearchParams,
+    common::enums::anime::{AnimeOrder, AnimeRating, AnimeStatus, AnimeType},
+    common::enums::common::Sort,
 };
 use serial_test::serial;
 mod common;
@@ -20,8 +22,8 @@ async fn get_anime() {
 async fn get_anime_search() {
     let client = JikanClient::new();
     let params = SearchParams {
-        q: Some("Death"),
-        status: Some(Status::Complete),
+        q: Some("Death".to_string()),
+        status: Some(AnimeStatus::Complete),
         sfw: Some(false),
         limit: Some(10),
         type_: Some(AnimeType::TV),
@@ -30,10 +32,10 @@ async fn get_anime_search() {
         // score: Some(8.62),   //* score can not be provided if there is an min_score or max_score
         min_score: Some(2.00), //* min_score and max_score will be ignored if score is passed
         max_score: Some(9.00),
-        rating: Some(Rating::Pg13),
+        rating: Some(AnimeRating::PG13),
         genres: Some("10"),
         genres_exclude: Some("2"),
-        order_by: Some(OrderBy::MalId),
+        order_by: Some(AnimeOrder::MalId),
         sort: Some(Sort::Asc),
         // letter: Some("d"),     //* this param can not be provided alongside the q param
         producers: Some("102"),
@@ -169,5 +171,15 @@ async fn get_nonexistent_anime() {
     let client = JikanClient::new();
     let result = client.get_anime(999999999).await;
     assert!(matches!(result, Err(JikanError::NotFound)));
+    wait_between_tests().await;
+}
+
+#[tokio::test]
+#[serial]
+async fn get_anime_relations() {
+    let client = JikanClient::new();
+    let result = client.get_anime_relations(51818).await;
+    println!("{:?}", result);
+    assert!(result.is_ok());
     wait_between_tests().await;
 }

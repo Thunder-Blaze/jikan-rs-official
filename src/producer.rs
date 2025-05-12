@@ -1,68 +1,25 @@
 // producers.rs
 use crate::{
     JikanClient, JikanError,
-    character::*,
-    common::{Images, Pagination},
+    enums::{common::Sort, producers::ProducersOrder},
+    response::Response,
+    structs::producers::Producer,
+    utils::ExternalEntry,
 };
-use serde::{Deserialize, Serialize};
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Producer {
-    pub mal_id: i32,
-    pub url: String,
-    pub titles: Vec<TitleEntry>,
-    pub images: Images,
-    pub favorites: i32,
-    pub count: i32,
-    pub established: Option<String>,
-    pub about: Option<String>,
-    pub external: Option<Vec<ExternalEntry>>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct TitleEntry {
-    #[serde(rename = "type")]
-    pub type_: String,
-    pub title: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ExternalEntry {
-    pub name: String,
-    pub url: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ProducerResponse<T> {
-    pub data: T,
-    pub pagination: Option<Pagination>,
-}
-
-pub enum FilterType {
-    SortFilter,
-    OrderFilter,
-    None,
-}
 
 impl JikanClient {
-    pub async fn get_producer_by_id(
-        &self,
-        id: i32,
-    ) -> Result<ProducerResponse<Producer>, JikanError> {
+    pub async fn get_producer_by_id(&self, id: i32) -> Result<Response<Producer>, JikanError> {
         self.get(&format!("/producers/{}", id)).await
     }
 
-    pub async fn get_producer_full_by_id(
-        &self,
-        id: i32,
-    ) -> Result<ProducerResponse<Producer>, JikanError> {
+    pub async fn get_producer_full_by_id(&self, id: i32) -> Result<Response<Producer>, JikanError> {
         self.get(&format!("/producers/{}/full", id)).await
     }
 
     pub async fn get_producer_external(
         &self,
         id: i32,
-    ) -> Result<ProducerResponse<Vec<ExternalEntry>>, JikanError> {
+    ) -> Result<Response<Vec<ExternalEntry>>, JikanError> {
         self.get(&format!("/producers/{}/external", id)).await
     }
 
@@ -71,10 +28,10 @@ impl JikanClient {
         page: Option<i32>,
         limit: Option<i32>,
         query: Option<i32>,
-        order_by: Option<OrderBy>,
+        order_by: Option<ProducersOrder>,
         sort: Option<Sort>,
         letter: Option<String>,
-    ) -> Result<ProducerResponse<Vec<Producer>>, JikanError> {
+    ) -> Result<Response<Vec<Producer>>, JikanError> {
         let mut params: Vec<String> = Vec::new();
 
         if let Some(p) = page {
@@ -87,19 +44,10 @@ impl JikanClient {
             params.push(format!("q={}", q));
         }
         if let Some(o) = order_by {
-            let order = match o {
-                OrderBy::MalId => "mal_id",
-                OrderBy::Name => "name",
-                OrderBy::Favorites => "favorites",
-            };
-            params.push(format!("order_by={}", order));
+            params.push(format!("order_by={}", o.as_str()));
         }
         if let Some(s) = sort {
-            let sort = match s {
-                Sort::Asc => "asc",
-                Sort::Desc => "desc",
-            };
-            params.push(format!("sort={}", sort));
+            params.push(format!("sort={}", s.as_str()));
         }
 
         if let Some(l) = letter {
@@ -118,7 +66,7 @@ impl JikanClient {
         self.get(&format!("/producers{}", query)).await
     }
 
-    pub async fn get_producers(&self) -> Result<ProducerResponse<Vec<Producer>>, JikanError> {
+    pub async fn get_producers(&self) -> Result<Response<Vec<Producer>>, JikanError> {
         self.get("/producers").await
     }
 }

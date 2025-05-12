@@ -1,6 +1,6 @@
 use crate::common::wait_between_tests;
 use jikan_rs::JikanClient;
-use jikan_rs::genre::GenreFilter;
+use jikan_rs::common::enums::genre::GenreFilter;
 use serial_test::serial;
 mod common;
 
@@ -8,7 +8,7 @@ mod common;
 #[serial]
 async fn get_anime_genres() {
     let client = JikanClient::new();
-    let result = client.get_anime_genres(GenreFilter::None).await;
+    let result = client.get_anime_genres(None).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -17,7 +17,7 @@ async fn get_anime_genres() {
 #[serial]
 async fn get_anime_genres_genres() {
     let client = JikanClient::new();
-    let result = client.get_anime_genres(GenreFilter::Genres).await;
+    let result = client.get_anime_genres(Some(GenreFilter::Genres)).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -26,7 +26,9 @@ async fn get_anime_genres_genres() {
 #[serial]
 async fn get_anime_genres_explicit() {
     let client = JikanClient::new();
-    let result = client.get_anime_genres(GenreFilter::ExplicitGenres).await;
+    let result = client
+        .get_anime_genres(Some(GenreFilter::ExplicitGenres))
+        .await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -35,7 +37,7 @@ async fn get_anime_genres_explicit() {
 #[serial]
 async fn get_anime_genres_themes() {
     let client = JikanClient::new();
-    let result = client.get_anime_genres(GenreFilter::Themes).await;
+    let result = client.get_anime_genres(Some(GenreFilter::Themes)).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -44,7 +46,9 @@ async fn get_anime_genres_themes() {
 #[serial]
 async fn get_anime_genres_demographics() {
     let client = JikanClient::new();
-    let result = client.get_anime_genres(GenreFilter::Demographics).await;
+    let result = client
+        .get_anime_genres(Some(GenreFilter::Demographics))
+        .await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -53,7 +57,7 @@ async fn get_anime_genres_demographics() {
 #[serial]
 async fn get_manga_genres() {
     let client = JikanClient::new();
-    let result = client.get_manga_genres(GenreFilter::None).await;
+    let result = client.get_manga_genres(None).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -62,7 +66,7 @@ async fn get_manga_genres() {
 #[serial]
 async fn get_manga_genres_genres() {
     let client = JikanClient::new();
-    let result = client.get_manga_genres(GenreFilter::Genres).await;
+    let result = client.get_manga_genres(Some(GenreFilter::Genres)).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -71,7 +75,9 @@ async fn get_manga_genres_genres() {
 #[serial]
 async fn get_manga_genres_explicit() {
     let client = JikanClient::new();
-    let result = client.get_manga_genres(GenreFilter::ExplicitGenres).await;
+    let result = client
+        .get_manga_genres(Some(GenreFilter::ExplicitGenres))
+        .await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -80,7 +86,7 @@ async fn get_manga_genres_explicit() {
 #[serial]
 async fn get_manga_genres_themes() {
     let client = JikanClient::new();
-    let result = client.get_manga_genres(GenreFilter::Themes).await;
+    let result = client.get_manga_genres(Some(GenreFilter::Themes)).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -89,7 +95,9 @@ async fn get_manga_genres_themes() {
 #[serial]
 async fn get_manga_genres_demographics() {
     let client = JikanClient::new();
-    let result = client.get_manga_genres(GenreFilter::Demographics).await;
+    let result = client
+        .get_manga_genres(Some(GenreFilter::Demographics))
+        .await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }

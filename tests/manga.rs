@@ -70,7 +70,7 @@ async fn get_manga_statistics() {
 #[serial]
 async fn get_manga_moreinfo() {
     let client = JikanClient::new();
-    let result = client.get_manga_moreinfo(1).await;
+    let result = client.get_manga_moreinfo(2).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }

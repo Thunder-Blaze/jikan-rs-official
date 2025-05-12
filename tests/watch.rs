@@ -17,7 +17,12 @@ async fn test_get_watch_recent_episodes() {
                 "Recent episodes response should not be empty"
             );
             assert!(
-                response.pagination.last_visible_page >= 1,
+                response
+                    .pagination
+                    .as_ref()
+                    .map(|p| p.last_visible_page)
+                    .unwrap_or(0)
+                    >= 1,
                 "Should have a valid page number"
             );
         }
@@ -40,7 +45,12 @@ async fn test_get_watch_popular_episodes() {
                 "Popular episodes response should not be empty"
             );
             assert!(
-                response.pagination.last_visible_page >= 1,
+                response
+                    .pagination
+                    .as_ref()
+                    .map(|p| p.last_visible_page)
+                    .unwrap_or(0)
+                    >= 1,
                 "Should have a valid page number"
             );
         }
@@ -63,10 +73,14 @@ async fn test_get_watch_recent_promos_no_page() {
                 "Recent promos response should not be empty"
             );
             assert!(
-                response.pagination.last_visible_page >= 1,
+                response
+                    .pagination
+                    .as_ref()
+                    .map(|p| p.last_visible_page)
+                    .unwrap_or(0)
+                    >= 1,
                 "Should have a valid page number"
             );
-            assert!(!response.title.is_empty(), "Response should have a title");
         }
         Err(e) => panic!("Failed to fetch recent promos without page: {}", e),
     }
@@ -79,7 +93,6 @@ async fn test_get_watch_recent_promos_no_page() {
 async fn test_get_watch_recent_promos_with_page() {
     let client = JikanClient::new();
     let result = client.get_watch_recent_promos(Some(1)).await;
-
     match result {
         Ok(response) => {
             assert!(
@@ -87,10 +100,14 @@ async fn test_get_watch_recent_promos_with_page() {
                 "Recent promos response should not be empty"
             );
             assert!(
-                response.pagination.last_visible_page >= 1,
+                response
+                    .pagination
+                    .as_ref()
+                    .map(|p| p.last_visible_page)
+                    .unwrap_or(0)
+                    >= 1,
                 "Should have a valid page number"
             );
-            assert!(!response.title.is_empty(), "Response should have a title");
         }
         Err(e) => panic!("Failed to fetch recent promos with page: {}", e),
     }
@@ -111,10 +128,14 @@ async fn test_get_watch_popular_promos() {
                 "Popular promos response should not be empty"
             );
             assert!(
-                response.pagination.last_visible_page >= 1,
+                response
+                    .pagination
+                    .as_ref()
+                    .map(|p| p.last_visible_page)
+                    .unwrap_or(0)
+                    >= 1,
                 "Should have a valid page number"
             );
-            assert!(!response.title.is_empty(), "Response should have a title");
         }
         Err(e) => panic!("Failed to fetch popular promos: {}", e),
     }

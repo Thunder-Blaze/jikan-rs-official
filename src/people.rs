@@ -1,97 +1,47 @@
 // people.rs
 use crate::{
     JikanClient, JikanError,
-    anime::*,
-    character::{OrderBy, Sort, *},
-    common::{Images, Pagination},
-    manga::*,
+    enums::{common::Sort, people::PeopleOrder},
+    response::Response,
+    structs::people::{Person, PersonAnimePosition, PersonMangaPosition, PersonVoiceActingRole},
+    utils::Images,
 };
-use serde::{Deserialize, Serialize};
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PeopleResponse<T> {
-    pub data: T,
-    pub pagination: Option<Pagination>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PersonAnimePosition {
-    pub position: String,
-    pub anime: Anime,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PersonMangaPosition {
-    pub position: String,
-    pub manga: Manga,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PersonVoiceActingRole {
-    pub role: String,
-    pub anime: Anime,
-    pub character: Character,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Person {
-    pub mal_id: i32,
-    pub url: String,
-    pub website_url: Option<String>,
-    pub images: Images,
-    pub name: Option<String>,
-    pub given_name: Option<String>,
-    pub family_name: Option<String>,
-    pub alternate_names: Option<Vec<String>>,
-    pub birthday: Option<String>,
-    pub favories: Option<i32>,
-    pub about: Option<String>,
-    pub anime: Option<Vec<PersonAnimePosition>>,
-    pub manga: Option<Vec<PersonMangaPosition>>,
-    pub voice_acting_roles: Option<Vec<PersonVoiceActingRole>>,
-}
 
 impl JikanClient {
-    pub async fn get_person_by_id(&self, id: i32) -> Result<PeopleResponse<Person>, JikanError> {
+    pub async fn get_person_by_id(&self, id: i32) -> Result<Response<Person>, JikanError> {
         self.get(&format!("/people/{}", id)).await
     }
 
-    pub async fn get_person_by_id_full(
-        &self,
-        id: i32,
-    ) -> Result<PeopleResponse<Person>, JikanError> {
+    pub async fn get_person_by_id_full(&self, id: i32) -> Result<Response<Person>, JikanError> {
         self.get(&format!("/people/{}/full", id)).await
     }
 
     pub async fn get_person_anime(
         &self,
         id: i32,
-    ) -> Result<PeopleResponse<Vec<PersonAnimePosition>>, JikanError> {
+    ) -> Result<Response<Vec<PersonAnimePosition>>, JikanError> {
         self.get(&format!("/people/{}/anime", id)).await
     }
 
     pub async fn get_person_manga(
         &self,
         id: i32,
-    ) -> Result<PeopleResponse<Vec<PersonMangaPosition>>, JikanError> {
+    ) -> Result<Response<Vec<PersonMangaPosition>>, JikanError> {
         self.get(&format!("/people/{}/manga", id)).await
     }
 
     pub async fn get_person_voice(
         &self,
         id: i32,
-    ) -> Result<PeopleResponse<Vec<PersonVoiceActingRole>>, JikanError> {
+    ) -> Result<Response<Vec<PersonVoiceActingRole>>, JikanError> {
         self.get(&format!("/people/{}/voices", id)).await
     }
 
-    pub async fn get_person_pictures(
-        &self,
-        id: i32,
-    ) -> Result<PeopleResponse<Vec<Images>>, JikanError> {
+    pub async fn get_person_pictures(&self, id: i32) -> Result<Response<Vec<Images>>, JikanError> {
         self.get(&format!("/people/{}/pictures", id)).await
     }
 
-    pub async fn get_people(&self) -> Result<PeopleResponse<Vec<Person>>, JikanError> {
+    pub async fn get_people(&self) -> Result<Response<Vec<Person>>, JikanError> {
         self.get("/people").await
     }
 
@@ -100,10 +50,10 @@ impl JikanClient {
         page: Option<i32>,
         limit: Option<i32>,
         query: Option<String>,
-        order_by: Option<OrderBy>,
+        order_by: Option<PeopleOrder>,
         sort: Option<Sort>,
         letter: Option<String>,
-    ) -> Result<PeopleResponse<Vec<Person>>, JikanError> {
+    ) -> Result<Response<Vec<Person>>, JikanError> {
         let mut params: Vec<String> = Vec::new();
 
         if let Some(p) = page {
@@ -115,20 +65,13 @@ impl JikanClient {
         if let Some(q) = query {
             params.push(format!("q={}", q));
         }
+
         if let Some(o) = order_by {
-            let order = match o {
-                OrderBy::MalId => "mal_id",
-                OrderBy::Name => "name",
-                OrderBy::Favorites => "favorites",
-            };
-            params.push(format!("order_by={}", order));
+            params.push(format!("order_by={}", o.as_str()));
         }
+
         if let Some(s) = sort {
-            let sort = match s {
-                Sort::Asc => "asc",
-                Sort::Desc => "desc",
-            };
-            params.push(format!("sort={}", sort));
+            params.push(format!("sort={}", s.as_str()));
         }
 
         if let Some(lett) = letter {

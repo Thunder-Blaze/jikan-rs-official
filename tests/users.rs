@@ -1,6 +1,6 @@
 use crate::common::wait_between_tests;
 use jikan_rs::JikanClient;
-use jikan_rs::users::*;
+use jikan_rs::users::GetUsersParams;
 use serial_test::serial;
 mod common;
 
@@ -8,7 +8,7 @@ mod common;
 #[serial]
 async fn get_user_full() {
     let client = JikanClient::new();
-    let result = client.get_user_full("InSaiyan__").await;
+    let result = client.get_user_full_profile("Thunder-Blaze").await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -17,7 +17,7 @@ async fn get_user_full() {
 #[serial]
 async fn get_user() {
     let client = JikanClient::new();
-    let result = client.get_user("InSaiyan__").await;
+    let result = client.get_user_profile("InSaiyan__").await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -27,11 +27,11 @@ async fn get_user() {
 async fn get_users() {
     let client = JikanClient::new();
     let result = client
-        .get_users(GetUsersParams {
+        .get_user_search(GetUsersParams {
             page: None,
             limit: None,
             q: None,
-            gender: Gender::None,
+            gender: None,
             location: None,
             min_age: None,
             max_age: None,
@@ -54,7 +54,7 @@ async fn get_user_by_id() {
 #[serial]
 async fn get_user_stats() {
     let client = JikanClient::new();
-    let result = client.get_user_stats("InSaiyan__").await;
+    let result = client.get_user_statistics("TheLlama").await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -72,7 +72,7 @@ async fn get_user_friends() {
 #[serial]
 async fn get_user_reviews() {
     let client = JikanClient::new();
-    let result = client.get_user_reviews("eren", Some(1)).await;
+    let result = client.get_user_reviews("TheLlama", Some(1)).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -81,9 +81,7 @@ async fn get_user_reviews() {
 #[serial]
 async fn get_user_history() {
     let client = JikanClient::new();
-    let result = client
-        .get_user_history("Kisaragi_Toka", UserHistoryType::None)
-        .await;
+    let result = client.get_user_history("Kisaragi_Toka", None).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -128,9 +126,7 @@ async fn get_user_updates() {
 #[serial]
 async fn get_user_recommendations() {
     let client = JikanClient::new();
-    let result = client
-        .get_user_recommendations("Kisaragi_Toka", Some(1))
-        .await;
+    let result = client.get_user_recommendations("TheLlama", Some(1)).await;
     assert!(result.is_ok());
     wait_between_tests().await;
 }

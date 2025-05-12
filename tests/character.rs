@@ -1,8 +1,10 @@
 use crate::common::wait_between_tests;
-use jikan_rs::JikanClient;
+use jikan_rs::{
+    JikanClient,
+    common::enums::{character::CharacterOrder, common::Sort},
+};
 use serial_test::serial;
 mod common;
-use jikan_rs::character::*;
 
 #[tokio::test]
 #[serial]
@@ -27,7 +29,6 @@ pub async fn get_character_full_by_id() {
 pub async fn get_character_anime() {
     let client = JikanClient::new();
     let result = client.get_character_anime(1).await;
-    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -64,7 +65,6 @@ pub async fn get_characters() {
 pub async fn get_character_pictures() {
     let client = JikanClient::new();
     let result = client.get_character_pictures(1).await;
-    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }
@@ -78,12 +78,11 @@ pub async fn get_character_search() {
             None,
             Some(1),
             Some(String::from("Naruto")),
-            Some(OrderBy::Favorites),
+            Some(CharacterOrder::Favorites),
             Some(Sort::Asc),
             None,
         )
         .await;
-    println!("{:?}", result);
     assert!(result.is_ok());
     wait_between_tests().await;
 }

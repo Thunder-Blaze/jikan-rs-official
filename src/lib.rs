@@ -7,10 +7,13 @@ pub mod anime;
 pub mod character;
 pub mod clubs;
 pub mod common;
+use common::enums;
+use common::response;
+use common::structs;
+use common::utils;
 pub mod genre;
 pub mod magazines;
 pub mod manga;
-pub mod misc;
 pub mod people;
 pub mod producer;
 pub mod random;
@@ -81,4 +84,19 @@ impl Default for JikanClient {
     fn default() -> Self {
         Self::new()
     }
+}
+
+pub fn format_search_query(query: String) -> String {
+    query
+        .to_lowercase()
+        .chars()
+        .map(|c| match c {
+            ' ' => '-',
+            c if c.is_alphanumeric() => c,
+            _ => ' ',
+        })
+        .collect::<String>()
+        .split_whitespace()
+        .collect::<Vec<&str>>()
+        .join("-")
 }

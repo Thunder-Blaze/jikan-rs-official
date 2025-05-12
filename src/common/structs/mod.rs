@@ -1,0 +1,16 @@
+pub mod anime;
+pub mod character;
+pub mod clubs;
+pub mod common;
+pub mod forum;
+pub mod genre;
+pub mod magazines;
+pub mod manga;
+pub mod people;
+pub mod producers;
+pub mod recommendation;
+pub mod reviews;
+pub mod schedule;
+pub mod season;
+pub mod users;
+pub mod watch;

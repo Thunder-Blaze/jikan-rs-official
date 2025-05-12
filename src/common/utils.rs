@@ -5,13 +5,8 @@ use serde::{Deserialize, Serialize};
 pub struct Pagination {
     pub last_visible_page: i32,
     pub has_next_page: bool,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PaginationPlus {
-    pub last_visible_page: i32,
-    pub has_next_page: bool,
-    pub items: PaginationItems,
+    pub current_page: Option<i32>,
+    pub items: Option<PaginationItems>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -23,7 +18,7 @@ pub struct PaginationItems {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Images {
-    pub jpg: ImageSet,
+    pub jpg: Option<ImageSet>,
     pub webp: Option<ImageSet>,
 }
 
@@ -35,7 +30,34 @@ pub struct ImageSet {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DateRangeProp {
+    pub day: Option<u32>,
+    pub month: Option<u32>,
+    pub year: Option<u32>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DateRange {
     pub from: Option<DateTime<Utc>>,
     pub to: Option<DateTime<Utc>>,
+    pub prop: DateRangeProp,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Title {
+    pub r#type: String,
+    pub title: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ExternalEntry {
+    pub name: String,
+    pub url: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Score {
+    pub score: i32,
+    pub votes: i32,
+    pub percentage: f32,
 }
