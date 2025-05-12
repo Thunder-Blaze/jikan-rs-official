@@ -4,10 +4,21 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        group: [1, 2, 3, 4, 5]
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test 
+      - name: Run tests
+        run: |
+          case ${{ matrix.group }} in
+            1) cargo test --test anime --test manga --test character ;;
+            2) cargo test --test people --test producer --test magazines ;;
+            3) cargo test --test watch --test seasons --test schedule ;;
+            4) cargo test --test clubs --test genre --test random --test top ;;
+            5) cargo test --test forum --test users --test review --test recommendations ;;
+          esac 
   fmt:
     name: Rustfmt
     runs-on: ubuntu-latest
