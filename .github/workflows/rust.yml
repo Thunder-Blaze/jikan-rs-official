@@ -13,22 +13,22 @@ jobs:
       - name: Run tests
         run: |
           case ${{ matrix.group }} in
-            1) cargo test --test anime;;
-            2) cargo test --test character;;
-            3) cargo test --test manga;;
-            4) cargo test --test people;;
-            5) cargo test --test producer;;
-            6) cargo test --test magazines;;
-            7) cargo test --test watch;;
-            8) cargo test --test seasons;;
-            9) cargo test --test schedule;;
-            10) cargo test --test clubs;;
-            11) cargo test --test genre;;
-            12) cargo test --test random;;
-            13) cargo test --test top;;
-            14) cargo test --test users;;
-            15) cargo test --test review;;
-            16) cargo test --test recommendations;;
+            1) cargo test --test anime -- --show-output --nocapture;;
+            2) cargo test --test character -- --show-output --nocapture;;
+            3) cargo test --test manga -- --show-output --nocapture;;
+            4) cargo test --test people -- --show-output --nocapture;;
+            5) cargo test --test producer -- --show-output --nocapture;;
+            6) cargo test --test magazines -- --show-output --nocapture;;
+            7) cargo test --test watch -- --show-output --nocapture;;
+            8) cargo test --test seasons -- --show-output --nocapture;;
+            9) cargo test --test schedule -- --show-output --nocapture;;
+            10) cargo test --test clubs -- --show-output --nocapture;;
+            11) cargo test --test genre -- --show-output --nocapture;;
+            12) cargo test --test random -- --show-output --nocapture;;
+            13) cargo test --test top -- --show-output --nocapture;;
+            14) cargo test --test users -- --show-output --nocapture;;
+            15) cargo test --test review -- --show-output --nocapture;;
+            16) cargo test --test recommendations -- --show-output --nocapture;;
           esac 
   fmt:
     name: Rustfmt
