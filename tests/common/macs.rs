@@ -14,12 +14,16 @@ macro_rules! make_client_test {
             name: stringify!($name),
             func: std::sync::Arc::new(|| {
                 tokio::spawn(async {
-                    use tokio::time::{timeout, Duration};
+                    use tokio::time::{Duration, timeout};
                     let $client_var = jikan_rs::JikanClient::new();
                     let result = timeout(Duration::from_secs(10), async { $call.await }).await;
                     match result {
                         Ok(inner) => {
-                            assert!(inner.is_ok(), "Request returned an error: {:?}", inner.err());
+                            assert!(
+                                inner.is_ok(),
+                                "Request returned an error: {:?}",
+                                inner.err()
+                            );
                         }
                         Err(_) => {
                             panic!("Request timed out after 10 seconds");
