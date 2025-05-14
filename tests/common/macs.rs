@@ -35,6 +35,31 @@ macro_rules! make_client_test {
     }};
 }
 
+// Macro for Error Tests
+#[macro_export]
+macro_rules! make_error_test {
+    ($name:ident, $client_var:ident, $call:expr) => {{
+        $crate::common::macs::NamedTestJob {
+            name: stringify!($name),
+            func: std::sync::Arc::new(|| {
+                tokio::spawn(async {
+                    use tokio::time::{Duration, timeout};
+                    let $client_var = jikan_rs::JikanClient::new();
+                    let result = timeout(Duration::from_secs(10), async { $call.await }).await;
+                    match result {
+                        Ok(inner) => {
+                            assert!(matches!(inner, Err(JikanError::NotFound)));
+                        }
+                        Err(_) => {
+                            panic!("Request timed out after 10 seconds");
+                        }
+                    }
+                })
+            }),
+        }
+    }};
+}
+
 // Define the macro for running rate-limited tests
 #[macro_export]
 macro_rules! ratelimited_test_runner {

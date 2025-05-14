@@ -1,5 +1,6 @@
 mod common;
 use crate::common::macs::NamedTestJob;
+use jikan_rs::JikanError;
 
 ratelimited_test_runner!(
     run_ratelimited_tests,
@@ -29,14 +30,6 @@ ratelimited_test_runner!(
         ),
         make_client_test!(get_manga_relations, client, client.get_manga_relations(1)),
         make_client_test!(get_manga_external, client, client.get_manga_external(1)),
+        make_error_test!(get_nonexistent_manga, client, client.get_manga(999999999)),
     ]
 );
-
-// #[tokio::test]
-// #[serial]
-// async fn get_nonexistent_manga() {
-//     let client = JikanClient::new();
-//     let result = client.get_manga(999999999).await;
-//     assert!(matches!(result, Err(JikanError::NotFound)));
-//     wait_between_tests().await;
-// }
